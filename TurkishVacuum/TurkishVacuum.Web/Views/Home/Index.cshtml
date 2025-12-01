@@ -1,8 +1,159 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Ana Sayfa Section -->
+<section id="ana-sayfa" class="section hero-section">
+    <div class="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/images/slide1.png" alt="Slide 1">
+                <div class="carousel-caption">
+                    <h2>Hoş Geldiniz</h2>
+                    <p>Kaliteli ürünler ve hizmetler</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/slide2.png" alt="Slide 2">
+                <div class="carousel-caption">
+                    <h2>Yenilikçi Çözümler</h2>
+                    <p>Modern yaklaşımlar ile hizmetinizdeyiz</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/slide3.png" alt="Slide 3">
+                <div class="carousel-caption">
+                    <h2>Güvenilir Hizmet</h2>
+                    <p>Müşteri memnuniyeti önceliğimiz</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="carousel-control next" onclick="changeSlide(1)">&#10095;</button>
+        <div class="carousel-indicators">
+            <span class="indicator active" onclick="currentSlide(0)"></span>
+            <span class="indicator" onclick="currentSlide(1)"></span>
+            <span class="indicator" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
+</section>
+
+<!-- Katalog Section -->
+<section id="katalog" class="section catalog-section">
+    <div class="container">
+        <h2 class="section-title">Ürün Kataloğu</h2>
+        <div class="catalog-grid">
+            <div class="catalog-item">
+                <img src="~/images/product1.jpg" alt="Ürün 1">
+                <h3>Ürün Adı 1</h3>
+                <p>Ürün açıklaması buraya gelecek</p>
+            </div>
+            <div class="catalog-item">
+                <img src="~/images/product2.jpg" alt="Ürün 2">
+                <h3>Ürün Adı 2</h3>
+                <p>Ürün açıklaması buraya gelecek</p>
+            </div>
+            <div class="catalog-item">
+                <img src="~/images/product3.jpg" alt="Ürün 3">
+                <h3>Ürün Adı 3</h3>
+                <p>Ürün açıklaması buraya gelecek</p>
+            </div>
+            <div class="catalog-item">
+                <img src="~/images/product4.jpg" alt="Ürün 4">
+                <h3>Ürün Adı 4</h3>
+                <p>Ürün açıklaması buraya gelecek</p>
+            </div>
+        </div>
+
+        <div>
+            <a href="#" class="social-link">
+                <i class="material-icons">facebook</i>
+                <span>Facebook</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Hakkımızda Section -->
+<section id="hakkimizda" class="section about-section">
+    <div class="container">
+        <h2 class="section-title">Hakkımızda</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="~/images/profile.png" alt="Profil Fotoğrafı">
+            </div>
+            <div class="about-text">
+                <p>
+                    Şirketimiz 20XX yılından bu yana sektörde faaliyet göstermektedir.
+                    Müşteri memnuniyetini ön planda tutarak, kaliteli ürün ve hizmet sunmayı
+                    ilke edindik. Deneyimli ekibimiz ile her zaman yanınızdayız.
+                </p>
+                <p>
+                    Vizyonumuz, sektörde öncü olmak ve sürekli gelişen teknolojiye ayak uydurarak
+                    müşterilerimize en iyi hizmeti sunmaktır. Misyonumuz ise güvenilir,
+                    yenilikçi ve kaliteli çözümler üretmektir.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- İletişim Section -->
+<section id="iletisim" class="section contact-section">
+    <div class="container">
+        <h2 class="section-title">İletişim</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="info-item">
+                    <i class="material-icons icon">phone</i>
+                    <div>
+                        <h4>Telefon</h4>
+                        <p>+90 (505) 366 26  56</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="material-icons icon">email</i>
+                    <div>
+                        <h4>E-posta</h4>
+                        <p>info@sirketadi.com</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="material-icons icon">location_on</i>
+                    <div>
+                        <h4>Adres</h4>
+                        <p>Aşık Veysel, 5847. Sk. no11, 35100 Karabağlar/İzmir</p>
+                    </div>
+                </div>
+                <div class="social-media">
+                    <h4>Sosyal Medya</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="material-icons">facebook</i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="material-icons">photo_camera</i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="material-icons">chat</i>
+                            <span>Twitter</span>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="material-icons">business</i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3127.5889501079105!2d27.135113375603648!3d38.38162947183865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbdf3be3a56009%3A0x7c429a37c86d2881!2sTurkish%20Vakum%20Cihazlar%C4%B1%20ve%20Teknolojisi%20%C4%B0zmir!5e0!3m2!1str!2str!4v1764594045522!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
