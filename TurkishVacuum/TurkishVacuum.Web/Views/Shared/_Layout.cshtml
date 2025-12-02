@@ -7,18 +7,24 @@
     <meta name="keywords" content="ürünler, hizmetler, katalog" />
     <title>@ViewData["Title"] - Turkish Vakum Cihazları ve Teknolojisi</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">Turkish Vakum Cihazları ve Teknolojisi</div>
+            <div class="logo">
+                <img src="~/images/Logo.png" alt="Logo" class="logo-image" />
+                <span class="logo-text">Turkish Vakum Cihazları ve Teknolojisi</span>
+            </div>
             <ul class="nav-menu">
-                <li><a href="#ana-sayfa" class="nav-link">Ana Sayfa</a></li>
-                <li><a href="#katalog" class="nav-link">Katalog</a></li>
-                <li><a href="#hakkimizda" class="nav-link">Hakkımızda</a></li>
-                <li><a href="#iletisim" class="nav-link">İletişim</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Catalog">Katalog</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Support">Destek</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="About">Hakkımızda</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Contact">İletişim</a></li>
+                
             </ul>
         </div>
     </nav>

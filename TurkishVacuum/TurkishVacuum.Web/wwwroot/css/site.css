@@ -6,10 +6,10 @@
 }
 
 :root {
-    --primary-red: #e63946;
-    --primary-blue: #1d3557;
-    --light-blue: #457b9d;
-    --accent-red: #f77f00;
+    --primary-red: #E42F45;
+    --primary-blue: #293462;
+    --light-blue: #5639A6;
+    --accent-red: #F15C5C;
     --white: #ffffff;
     --light-gray: #f8f9fa;
     --dark-gray: #212529;
@@ -29,6 +29,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    margin-top: 1em;
 }
 
 /* Navigation Bar */
@@ -51,9 +52,22 @@ body {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--white);
+}
+
+.logo-image {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text {
+    white-space: nowrap;
 }
 
 .nav-menu {
@@ -66,7 +80,6 @@ body {
     color: var(--white);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s;
 }
 
     .nav-link:hover {
@@ -130,19 +143,35 @@ body {
     transform: translateX(-50%);
     text-align: center;
     color: var(--white);
-    background: rgba(29, 53, 87, 0.7);
-    padding: 2rem 3rem;
-    border-radius: 10px;
+    background: rgba(230, 57, 70, 0.85);
+    padding: 2.5rem 4rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+    animation: fadeInUp 0.8s ease;
 }
 
-    .carousel-caption h2 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
     }
 
-    .carousel-caption p {
-        font-size: 1.3rem;
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
     }
+}
+
+.carousel-caption h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.carousel-caption p {
+    font-size: 1.3rem;
+}
 
 .carousel-control {
     position: absolute;
@@ -201,6 +230,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 .catalog-item {
@@ -231,6 +261,46 @@ body {
     .catalog-item p {
         padding: 0 1rem 1.5rem;
         color: var(--dark-gray);
+    }
+
+/* Catalog Contact Section */
+.catalog-contact-section {
+    text-align: center;
+    padding: 3rem 0;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.catalog-contact-text {
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    margin-bottom: 1.5rem;
+}
+
+.contact-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2.5rem;
+    background-color: var(--primary-red);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+    .contact-button:hover {
+        background-color: var(--accent-red);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+    }
+
+    .contact-button .material-icons {
+        font-size: 1.5rem;
     }
 
 /* About Section */
@@ -295,7 +365,8 @@ body {
 }
 
 .material-icons.icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    min-width: 2rem;
 }
 
 .info-item h4 {
@@ -328,12 +399,13 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
+    padding: 0.7rem 1.3rem;
     background-color: var(--primary-blue);
     color: var(--white);
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s, transform 0.2s;
+    font-size: 0.95rem;
 }
 
     .social-link:hover {
@@ -343,6 +415,10 @@ body {
 
     .social-link .material-icons {
         font-size: 1.2rem;
+    }
+
+    .social-link span {
+        font-weight: 500;
     }
 
 .contact-map iframe {
@@ -362,6 +438,14 @@ body {
 @media (max-width: 768px) {
     .nav-menu {
         gap: 1rem;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .logo-image {
+        height: 40px;
     }
 
     .carousel-caption h2 {
@@ -387,12 +471,27 @@ body {
     .contact-content {
         grid-template-columns: 1fr;
     }
+
+    .contact-button {
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
     .nav-menu {
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .logo {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .logo-text {
+        font-size: 0.9rem;
+        text-align: center;
     }
 
     .carousel-caption {
@@ -405,5 +504,14 @@ body {
 
     .catalog-grid {
         grid-template-columns: 1fr;
+    }
+
+    .catalog-contact-text {
+        font-size: 1rem;
+    }
+
+    .contact-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
     }
 }
