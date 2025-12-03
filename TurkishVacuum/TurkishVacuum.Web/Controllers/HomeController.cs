@@ -22,14 +22,17 @@ namespace TurkishVacuum.Web.Controllers
         {
             return View();
         }
+        
         public IActionResult Support()
         {
             return View();
         }
+        
         public IActionResult Contact()
         {
             return View();
         }
+        
         public IActionResult About()
         {
             return View();

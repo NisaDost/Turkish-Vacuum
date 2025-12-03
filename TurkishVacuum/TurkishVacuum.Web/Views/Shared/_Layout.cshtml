@@ -32,6 +32,11 @@
     <!-- Main Content -->
     <main>
         @RenderBody()
+        <!-- Floating Contact Button -->
+        <a href="@Url.Action("Contact", "Home")" class="floating-contact-button" title="İletişime Geçin">
+            <i class="material-icons">phone_in_talk</i>
+            <span class="floating-button-text">İletişim</span>
+        </a>
     </main>
 
     <!-- Footer -->

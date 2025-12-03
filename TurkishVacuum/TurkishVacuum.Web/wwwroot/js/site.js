@@ -48,3 +48,4 @@ document.addEventListener('DOMContentLoaded', function () {
     slideInterval = setInterval(autoSlide, 5000);
 
 });
+
