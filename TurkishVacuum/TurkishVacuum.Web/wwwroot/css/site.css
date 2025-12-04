@@ -324,7 +324,10 @@ body {
 
 /* Contact Section */
 .contact-section {
+    margin: 3rem 5rem;
     background-color: var(--light-gray);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
 }
 
 .contact-content {
@@ -409,7 +412,7 @@ body {
 /* Footer */
 .footer {
     background-color: var(--primary-blue);
-    color: var(--white);
+    color: rgba(256,256,256, 0.5);
     text-align: center;
     padding: 2rem 0;
 }
@@ -417,6 +420,13 @@ body {
 /* Support Section - Accordion */
 .support-section {
     background-color: var(--white);
+}
+.support-description p{
+    text-align: justify;
+    margin: 0 0 0.5rem 0;
+    padding: 0.5rem;
+    background-color: var(--white);
+    border-radius: 15px;
 }
 
 .accordion-container {

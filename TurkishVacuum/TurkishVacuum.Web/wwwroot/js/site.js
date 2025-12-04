@@ -39,13 +39,13 @@ function autoSlide() {
 
 function resetInterval() {
     clearInterval(slideInterval);
-    slideInterval = setInterval(autoSlide, 5000);
+    slideInterval = setInterval(autoSlide, 8000);
 }
 
 // Initialize carousel
 document.addEventListener('DOMContentLoaded', function () {
     showSlide(currentSlideIndex);
-    slideInterval = setInterval(autoSlide, 5000);
+    slideInterval = setInterval(autoSlide, 8000);
 
 });
 
