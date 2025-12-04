@@ -1,11 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Ürün Kataloğu";
+    ViewData["Title"] = "Yedek Parça";
 }
 
 <!-- Katalog Section -->
 <section id="katalog" class="section catalog-section">
     <div class="container">
-        <h2 class="section-title">Ürün Kataloğu</h2>
+        <h2 class="section-title">Yedek Parça</h2>
+
+        <div class="catalog-description">
+            <p>
+                Her marka ait vakum pompası için orijinal ve uyumlu yedek parça ve bakım kitleri sunuyoruz.
+            </p>
+            <p>
+                Aşınan veya düzenli değişmesi gereken parçalar için uygun kitler, contalar, filtreler ve çeşitli bakım ürünlerini temin ederek pompalarınızın verimli çalışmasına destek oluyoruz.
+                
+            </p>
+            <a href="@Url.Action("Contact", "Home")" class="contact-button">
+                <i class="material-icons icon">phone_in_talk</i>
+                Detaylı bilgi ve talepleriniz için bize ulaşın.
+            </a>
+
+        </div>
+
         <div class="catalog-grid">
             <div class="catalog-item">
                 <img src="~/images/cihazlar.png" alt="Vakum Cihazları">
