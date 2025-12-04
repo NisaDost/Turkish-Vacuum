@@ -15,15 +15,14 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <img src="~/images/Logo.png" alt="Logo" class="logo-image" />
-                <span class="logo-text">Turkish Vakum Cihazları ve Teknolojisi</span>
+                <img src="~/images/logo-light.png" alt="Logo" class="logo-image" />
             </div>
             <ul class="nav-menu">
                 <li><a class="nav-link" asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Catalog">Yedek Parça</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Support">Destek</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="About">Hakkımızda</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Contact">İletişim</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Yedek_Parca">Yedek Parça</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Destek">Destek</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a></li>
+                <li><a class="nav-link" asp-controller="Home" asp-action="Iletisim">İletişim</a></li>
                 
             </ul>
         </div>
@@ -33,7 +32,7 @@
     <main>
         @RenderBody()
         <!-- Floating Contact Button -->
-        <a href="@Url.Action("Contact", "Home")" class="floating-contact-button" title="İletişime Geçin">
+        <a href="@Url.Action("Iletisim", "Home")" class="floating-contact-button" title="İletişime Geçin">
             <i class="material-icons">phone_in_talk</i>
             <span class="floating-button-text">İletişim</span>
         </a>

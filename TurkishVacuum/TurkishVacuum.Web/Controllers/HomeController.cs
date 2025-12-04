@@ -18,22 +18,22 @@ namespace TurkishVacuum.Web.Controllers
             return View();
         }
 
-        public IActionResult Catalog()
+        public IActionResult Yedek_Parca()
         {
             return View();
         }
         
-        public IActionResult Support()
+        public IActionResult Destek()
         {
             return View();
         }
         
-        public IActionResult Contact()
+        public IActionResult Iletisim()
         {
             return View();
         }
         
-        public IActionResult About()
+        public IActionResult Hakkimizda()
         {
             return View();
         }
