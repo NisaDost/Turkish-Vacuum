@@ -54,10 +54,12 @@ body {
     font-weight: bold;
     color: var(--white);
 }
+
 .logo-image {
     height: 3rem;
     vertical-align: middle;
 }
+
 .nav-menu {
     display: flex;
     list-style: none;
@@ -99,7 +101,7 @@ body {
 
 /* Sections */
 .section {
-    min-height: 100vh;
+    min-height: 100%;
     padding: 20px 20px 40px;
 }
 
@@ -246,18 +248,17 @@ body {
     padding: 2rem;
     background-color: var(--white);
     border-radius: 15px;
-    
 }
     .catalog-description p {
         margin-bottom: 1rem;
         line-height: 1.5;
     }
 
-    .catalog-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-    }
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
 
 .catalog-item {
     background-color: var(--white);
@@ -324,15 +325,16 @@ body {
 
 /* Contact Section */
 .contact-section {
-    margin: 3rem 5rem;
     background-color: var(--light-gray);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
 }
 
 .contact-content {
     display: grid;
+    padding: 2rem;
+    border-radius: 15px;
     grid-template-columns: 1fr 1fr;
+    background-color: var(--white);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     gap: 3rem;
 }
 
