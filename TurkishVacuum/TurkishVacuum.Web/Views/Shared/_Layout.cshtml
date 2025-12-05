@@ -19,13 +19,20 @@
                     <img src="~/images/logo-light.png" alt="Logo" class="logo-image" />
                 </a>
             </div>
-            <ul class="nav-menu">
+
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menü">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
                 <li><a class="nav-link" asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
                 <li><a class="nav-link" asp-controller="Home" asp-action="Yedek_Parca">Yedek Parça</a></li>
                 <li><a class="nav-link" asp-controller="Home" asp-action="Destek">Destek</a></li>
                 <li><a class="nav-link" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a></li>
                 <li><a class="nav-link" asp-controller="Home" asp-action="Iletisim">İletişim</a></li>
-
             </ul>
         </div>
     </nav>
@@ -40,23 +47,51 @@
         </a>
     </main>
 
-    <!-- Footer TODO -->
+    <!-- Footer -->
     <footer class="footer">
-        <div class="container align-items-center">
-                <p>&copy; @DateTime.Now.Year Turkish Vakum Cihazları ve Teknolojisi. Tüm hakları saklıdır.</p>
-            <div class="social-links">
-                <a href="#" class="social-link">
+        <div class="footer-container">
+            <p class="footer-copyright">&copy; @DateTime.Now.Year Turkish Vakum Cihazları ve Teknolojisi. Tüm hakları saklıdır.</p>
+            <div class="footer-social-links">
+                <a href="#" class="footer-social-link" title="WhatsApp">
                     <i class="bi bi-whatsapp"></i>
                 </a>
-                <a href="https://www.facebook.com/people/Turk%C4%B1sh-vakum-cihazlar%C4%B1-ve-teknolojisi-izmir/100083208278701/" target="_blank" class="social-link">
+                <a href="https://www.facebook.com/people/Turk%C4%B1sh-vakum-cihazlar%C4%B1-ve-teknolojisi-izmir/100083208278701/" target="_blank" class="footer-social-link" title="Facebook">
                     <i class="bi bi-facebook"></i>
                 </a>
-                <a href="https://www.instagram.com/ibrahim.dost?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link">
+                <a href="https://www.instagram.com/ibrahim.dost?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="footer-social-link" title="Instagram">
                     <i class="bi bi-instagram"></i>
                 </a>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        document.getElementById('hamburgerMenu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('hamburgerMenu').classList.remove('active');
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.navbar');
+            const hamburger = document.getElementById('hamburgerMenu');
+            const navMenu = document.getElementById('navMenu');
+
+            if (!navbar.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
