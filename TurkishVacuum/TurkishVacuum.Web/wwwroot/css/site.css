@@ -24,8 +24,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--dark-gray);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-
+main {
+    flex: 1;
+}
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -366,6 +371,10 @@ body {
 /* Contact Section */
 .contact-section {
     background-color: var(--white);
+    min-height: calc(100vh - 70px - 140px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .contact-content {
