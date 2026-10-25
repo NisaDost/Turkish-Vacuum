@@ -1,0 +1,50 @@
+@* Tamir süresince konsinye yedek pompa desteğini anlatan bölüm *@
+<section class="section loaner-section" id="yedek-pompa" aria-labelledby="yedek-pompa-title">
+    <div class="container loaner-grid">
+        <div class="loaner-media" data-reveal>
+            <img src="~/images/8.jpg" alt="@T("Kullanıma hazır yedek vakum pompaları", "Loaner vacuum pumps ready for use")" width="643" height="360" loading="lazy" decoding="async" />
+            <div class="loaner-badge">
+                <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                <div>
+                    <strong>@T("Konsinye", "Consignment")</strong>
+                    <span>@T("Yedek pompa desteği", "Loaner pump service")</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="loaner-content" data-reveal>
+            <span class="eyebrow eyebrow-light">@T("Yedek Pompa Desteği", "Loaner Pump Service")</span>
+            <h2 class="section-title" id="yedek-pompa-title">@T("Pompanız tamirdeyken üretiminiz durmasın", "Keep production running while your pump is repaired")</h2>
+            @if (IsEnglish)
+            {
+                <p>
+                    While your faulty pump is being repaired in our workshop, we can supply a suitable loaner pump to your
+                    facility <strong>on consignment</strong>. Once the repair is complete, your pump is tested and returned,
+                    and the loaner pump is collected.
+                </p>
+            }
+            else
+            {
+                <p>
+                    Arızalı pompanız atölyemizde onarılırken, işletmenize uygun bir yedek pompayı
+                    <strong>konsinye</strong> olarak temin edebiliyoruz. Tamir tamamlandığında pompanız
+                    test edilerek teslim edilir, yedek pompa geri alınır.
+                </p>
+            }
+            <ul class="check-list">
+                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> @T("Tamir süresince üretiminiz kesintiye uğramaz", "No production downtime during repairs")</li>
+                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> @T("İşletmenize uygun yedek pompa, kuruluma hazır teslim", "A suitable loaner pump, delivered ready to install")</li>
+                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> @T("Duruş maliyeti ve teslim baskısı ortadan kalkar", "No downtime costs or delivery pressure")</li>
+            </ul>
+            <div class="btn-row">
+                <a class="btn btn-whatsapp btn-lg" href="@LoanerPumpWhatsAppLink" target="_blank" rel="noopener">
+                    <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("Yedek Pompa Talep Et", "Request a Loaner Pump")
+                </a>
+                <a class="btn btn-ghost-light btn-lg" href="@SiteInfo.PhoneLink">
+                    <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+                </a>
+            </div>
+            <p class="fine-print">@T("Yedek pompa temini; pompa tipi, kapasite ve stok uygunluğuna göre planlanır.", "Loaner pump availability depends on pump type, capacity and stock.")</p>
+        </div>
+    </div>
+</section>

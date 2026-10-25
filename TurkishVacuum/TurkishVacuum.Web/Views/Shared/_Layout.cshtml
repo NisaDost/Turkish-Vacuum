@@ -1,104 +1,263 @@
-﻿<!DOCTYPE html>
-<html lang="tr">
+﻿@using System.Text.Json
+@{
+    var title = ViewData["Title"] as string ?? SiteInfo.ShortName;
+    var pageTitle = ViewData["PageTitle"] as string
+        ?? $"{title} | {SiteInfo.ShortName} – {T("7/24 Vakum Pompası Servisi", "24/7 Vacuum Pump Service")}";
+    var description = ViewData["Description"] as string
+        ?? T("İzmir merkezli 7/24 vakum pompası tamir, bakım, revizyon ve yedek parça hizmeti. Tamir süresince yedek pompa desteği. Tüm marka yağlı, sulu ve kuru vakum pompaları.",
+             "24/7 vacuum pump repair, maintenance, overhaul and spare parts based in İzmir, Türkiye. Loaner pumps available during repairs. All brands of oil-sealed, liquid ring and dry vacuum pumps.");
+
+    // Sayfanın her iki dildeki adresi: canonical, hreflang ve dil değiştirici için
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    var isPage = SiteRoutes.IsPage(currentAction);
+    var isHome = string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase);
+    var noIndex = ViewData["NoIndex"] is true || !isPage;
+    var turkishUrl = isPage ? SiteInfo.BaseUrl + SiteRoutes.PathFor(currentAction!, english: false) : null;
+    var englishUrl = isPage ? SiteInfo.BaseUrl + SiteRoutes.PathFor(currentAction!, english: true) : null;
+    var canonical = IsEnglish ? englishUrl : turkishUrl;
+    var otherLanguageUrl = Context.Request.PathBase + SiteRoutes.PathFor(isPage ? currentAction! : "Index", english: !IsEnglish);
+
+    var hideCtaBand = ViewData["HideCtaBand"] is true;
+    string NavClass(string action) => string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase) ? "nav-link active" : "nav-link";
+}
+<!DOCTYPE html>
+<html lang="@Lang">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Şirket tanıtım ve ürün katalog sayfası" />
-    <meta name="keywords" content="ürünler, hizmetler, katalog" />
-    <title>@ViewData["Title"] - Turkish Vakum Cihazları ve Teknolojisi</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>@pageTitle</title>
+    <meta name="description" content="@description" />
+    @if (noIndex)
+    {
+        <meta name="robots" content="noindex, follow" />
+    }
+    else
+    {
+        <link rel="canonical" href="@canonical" />
+        <link rel="alternate" hreflang="tr" href="@turkishUrl" />
+        <link rel="alternate" hreflang="en" href="@englishUrl" />
+        <link rel="alternate" hreflang="x-default" href="@turkishUrl" />
+    }
+    <meta name="theme-color" content="#1d3557" />
+    <meta name="format-detection" content="telephone=yes" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="@T("tr_TR", "en_US")" />
+    <meta property="og:locale:alternate" content="@T("en_US", "tr_TR")" />
+    <meta property="og:site_name" content="@SiteInfo.Name" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:description" content="@description" />
+    <meta property="og:url" content="@(canonical ?? SiteInfo.BaseUrl + "/")" />
+    <meta property="og:image" content="@(SiteInfo.BaseUrl)/images/slide1.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="673" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="~/favicon.ico" />
+    <link rel="apple-touch-icon" href="~/images/Logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script>document.documentElement.classList.add('js');</script>
+
+    <script type="application/ld+json">@Html.Raw(JsonSerializer.Serialize(SiteInfo.LocalBusinessSchema(IsEnglish)))</script>
+    @if (isPage && !isHome && !noIndex)
+    {
+        var breadcrumb = new Dictionary<string, object>
+        {
+            ["@context"] = "https://schema.org",
+            ["@type"] = "BreadcrumbList",
+            ["itemListElement"] = new[]
+            {
+                new Dictionary<string, object> { ["@type"] = "ListItem", ["position"] = 1, ["name"] = T("Ana Sayfa", "Home"), ["item"] = SiteInfo.BaseUrl + SiteRoutes.PathFor("Index", IsEnglish) },
+                new Dictionary<string, object> { ["@type"] = "ListItem", ["position"] = 2, ["name"] = title, ["item"] = canonical! }
+            }
+        };
+        <script type="application/ld+json">@Html.Raw(JsonSerializer.Serialize(breadcrumb))</script>
+    }
+    @await RenderSectionAsync("Head", required: false)
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <a href="@Url.Action("Index", "Home")">
-                    <img src="~/images/logo-light.png" alt="Logo" class="logo-image" />
+    <a class="skip-link" href="#icerik">@T("İçeriğe geç", "Skip to content")</a>
+
+    <header class="site-header">
+        <!-- İletişim şeridi -->
+        <div class="topbar">
+            <div class="topbar-inner">
+                <a class="topbar-call" href="@SiteInfo.PhoneLink">
+                    <i class="bi bi-telephone" aria-hidden="true"></i>
+                    <strong>@PhoneText</strong>
+                    <span class="hide-xs">· @T("7/24 ulaşabilirsiniz", "Available 24/7")</span>
                 </a>
+                <div class="topbar-right">
+                    <span class="topbar-note">
+                        <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                        @T("Tamir süresince yedek pompa desteği", "Loaner pumps available during repairs")
+                    </span>
+                    <a class="lang-switch lang-switch--topbar" href="@otherLanguageUrl" hreflang="@T("en", "tr")" aria-label="@T("English", "Türkçe")">
+                        <i class="bi bi-globe2" aria-hidden="true"></i> @T("English", "Türkçe")
+                    </a>
+                </div>
             </div>
-
-            <!-- Hamburger Menu Button -->
-            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menü">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-
-            <ul class="nav-menu" id="navMenu">
-                <li><a class="nav-link" asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Yedek_Parca">Yedek Parça</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Destek">Destek</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a></li>
-                <li><a class="nav-link" asp-controller="Home" asp-action="Iletisim">İletişim</a></li>
-            </ul>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main>
+        <nav class="navbar" aria-label="@T("Ana menü", "Main menu")">
+            <div class="nav-container">
+                <a class="logo" href="@PageUrl("Index")" aria-label="@SiteInfo.ShortName @T("ana sayfa", "home page")">
+                    <img src="~/images/logo-light.png" alt="@SiteInfo.Name" class="logo-image" width="1920" height="300" />
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a class="@NavClass("Index")" href="@PageUrl("Index")">@T("Ana Sayfa", "Home")</a></li>
+                    <li><a class="@NavClass("Yedek_Parca")" href="@PageUrl("Yedek_Parca")">@T("Yedek Parça", "Spare Parts")</a></li>
+                    <li><a class="@NavClass("Destek")" href="@PageUrl("Destek")">@T("Destek", "Support")</a></li>
+                    <li><a class="@NavClass("Hakkimizda")" href="@PageUrl("Hakkimizda")">@T("Hakkımızda", "About Us")</a></li>
+                    <li><a class="@NavClass("Iletisim")" href="@PageUrl("Iletisim")">@T("İletişim", "Contact")</a></li>
+                    <li class="nav-menu-cta">
+                        <a class="btn btn-primary btn-block" href="@SiteInfo.PhoneLink">
+                            <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+                        </a>
+                        <a class="btn btn-whatsapp btn-block" href="@WhatsAppLink" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("WhatsApp'tan Yazın", "Message us on WhatsApp")
+                        </a>
+                    </li>
+                </ul>
+
+                <a class="nav-cta" href="@SiteInfo.PhoneLink">
+                    <i class="bi bi-telephone" aria-hidden="true"></i> @PhoneText
+                </a>
+
+                <a class="lang-switch lang-switch--nav" href="@otherLanguageUrl" hreflang="@T("en", "tr")" aria-label="@T("English", "Türkçe")">
+                    <i class="bi bi-globe2" aria-hidden="true"></i><span>@T("EN", "TR")</span>
+                </a>
+
+                <button class="hamburger-menu" id="hamburgerMenu" type="button"
+                        aria-label="@T("Menüyü aç", "Open menu")" aria-controls="navMenu" aria-expanded="false"
+                        data-label-open="@T("Menüyü aç", "Open menu")" data-label-close="@T("Menüyü kapat", "Close menu")">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="icerik">
         @RenderBody()
-        <!-- Floating Contact Button -->
-        <a href="@Url.Action("Iletisim", "Home")" class="floating-contact-button" title="İletişime Geçin">
-            <i class="material-icons">phone_in_talk</i>
-            <span class="floating-button-text">İletişim</span>
-        </a>
     </main>
 
-    <!-- Footer -->
+    @if (!hideCtaBand)
+    {
+        <section class="cta-band" aria-labelledby="cta-band-title">
+            <div class="container cta-band-inner">
+                <div class="cta-band-text">
+                    <span class="eyebrow eyebrow-light">@T("Bize Ulaşın", "Get in Touch")</span>
+                    <h2 id="cta-band-title">@T("Pompanızla ilgili bir sorun mu var?", "Having trouble with your pump?")</h2>
+                    <p>@T("Arızayı birlikte değerlendirelim; gerekirse tamir süresince yedek pompa temin edelim.", "Let's assess the fault together and, if needed, supply a loaner pump during the repair.")</p>
+                </div>
+                <div class="cta-band-actions">
+                    <a class="btn btn-light btn-lg" href="@SiteInfo.PhoneLink">
+                        <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+                    </a>
+                    <a class="btn btn-whatsapp btn-lg" href="@WhatsAppLink" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("WhatsApp'tan Yazın", "Message on WhatsApp")
+                    </a>
+                </div>
+            </div>
+        </section>
+    }
+
     <footer class="footer">
         <div class="footer-container">
-
-            <p class="footer-copyright">&copy; @DateTime.Now.Year Turkish Vakum Cihazları ve Teknolojisi. Tüm hakları saklıdır.</p>
-            
-            <div class="footer-social-links">
-                <a href="https://wa.me/905053662656?text=Merhaba%2C%20vakum%20cihaz%C4%B1mda%20bir%20sorun%20ya%C5%9F%C4%B1yorum.%20Yard%C4%B1mc%C4%B1%20olabilir%20misiniz%3F" class="footer-social-link" target="_blank" title="Whatsapp">
-                    <i class="bi bi-whatsapp"></i>
-                </a>
-                <a href="https://www.facebook.com/people/Turk%C4%B1sh-vakum-cihazlar%C4%B1-ve-teknolojisi-izmir/100083208278701/" target="_blank" class="footer-social-link" title="Facebook">
-                    <i class="bi bi-facebook"></i>
-                </a>
-                <a href="https://www.instagram.com/ibrahim.dost?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="footer-social-link" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
+            <div class="footer-brand">
+                <img src="~/images/logo-light.png" alt="@SiteInfo.Name" class="footer-logo" width="1920" height="300" loading="lazy" />
+                <p>@T("2015'ten bu yana yağlı, sulu ve kuru vakum pompalarında tamir, bakım, revizyon ve yedek parça çözümleri.", "Repair, maintenance, overhaul and spare parts for oil-sealed, liquid ring and dry vacuum pumps since 2015.")</p>
+                <div class="footer-social-links">
+                    <a href="@WhatsAppLink" class="footer-social-link" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="@SiteInfo.FacebookUrl" class="footer-social-link" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="@SiteInfo.InstagramUrl" class="footer-social-link" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                </div>
             </div>
+
+            <div class="footer-col">
+                <h2 class="footer-title">@T("Sayfalar", "Pages")</h2>
+                <ul>
+                    <li><a href="@PageUrl("Index")">@T("Ana Sayfa", "Home")</a></li>
+                    <li><a href="@PageUrl("Yedek_Parca")">@T("Yedek Parça", "Spare Parts")</a></li>
+                    <li><a href="@PageUrl("Destek")">@T("Destek", "Support")</a></li>
+                    <li><a href="@PageUrl("Hakkimizda")">@T("Hakkımızda", "About Us")</a></li>
+                    <li><a href="@PageUrl("Iletisim")">@T("İletişim", "Contact")</a></li>
+                    <li><a href="@otherLanguageUrl" hreflang="@T("en", "tr")">@T("English", "Türkçe")</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h2 class="footer-title">@T("Hizmetler", "Services")</h2>
+                <ul>
+                    <li>@T("Tamir & Onarım", "Repair")</li>
+                    <li>@T("Periyodik Bakım", "Periodic Maintenance")</li>
+                    <li>@T("Revizyon", "Overhaul")</li>
+                    <li>@T("Yedek Parça", "Spare Parts")</li>
+                    <li>@T("Yedek Pompa (Konsinye)", "Loaner Pump (Consignment)")</li>
+                    <li>@T("Sıfır ve 2. El Cihaz Temini", "New & Used Pump Supply")</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h2 class="footer-title">@T("İletişim", "Contact")</h2>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+                        <a href="@SiteInfo.PhoneLink"><strong>@PhoneText</strong><span>@T("Telefon ve WhatsApp, 7/24", "Phone & WhatsApp, 24/7")</span></a>
+                    </li>
+                    <li>
+                        <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                        <a href="mailto:@SiteInfo.Email">@SiteInfo.Email</a>
+                    </li>
+                    <li>
+                        <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+                        <a href="@SiteInfo.MapsUrl" target="_blank" rel="noopener">@(SiteInfo.Address + T("", ", Türkiye"))</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; @DateTime.Now.Year @SiteInfo.Name. @T("Tüm hakları saklıdır.", "All rights reserved.")</p>
             <div class="github">
-                <a href="https://github.com/NisaDost" target="_blank" title="Github"><i class="bi bi-github"></i></a>
-                <a href="https://github.com/NisaDost" target="_blank"  style="text-decoration: none">Dost Yazılım</a>
+                <a href="https://github.com/NisaDost" target="_blank" rel="noopener" title="Github"><i class="bi bi-github"></i></a>
+                <a href="https://github.com/NisaDost" target="_blank" rel="noopener">Dost Yazılım</a>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Hamburger Menu Toggle
-        document.getElementById('hamburgerMenu').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.getElementById('navMenu').classList.toggle('active');
-        });
+    <!-- Masaüstü: sabit WhatsApp butonu -->
+    <a href="@WhatsAppLink" class="floating-whatsapp" target="_blank" rel="noopener" aria-label="@T("WhatsApp'tan yazın", "Message us on WhatsApp")">
+        <i class="bi bi-whatsapp" aria-hidden="true"></i>
+    </a>
 
-        // Close menu when clicking on a link
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('hamburgerMenu').classList.remove('active');
-                document.getElementById('navMenu').classList.remove('active');
-            });
-        });
+    <!-- Mobil: ekranın altında her zaman görünen arama / WhatsApp çubuğu -->
+    <div class="mobile-action-bar">
+        <a class="mab-call" href="@SiteInfo.PhoneLink">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+            <span>@T("Bizi Arayın", "Call Us")</span>
+        </a>
+        <a class="mab-wa" href="@WhatsAppLink" target="_blank" rel="noopener">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            <span>WhatsApp</span>
+        </a>
+    </div>
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const navbar = document.querySelector('.navbar');
-            const hamburger = document.getElementById('hamburgerMenu');
-            const navMenu = document.getElementById('navMenu');
-
-            if (!navbar.contains(event.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    </script>
-
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

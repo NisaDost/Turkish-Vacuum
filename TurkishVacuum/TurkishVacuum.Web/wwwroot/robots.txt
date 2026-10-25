@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /hata
+
+Sitemap: https://turkishvacuum.com/sitemap.xml

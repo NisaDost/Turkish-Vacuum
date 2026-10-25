@@ -53,3 +53,6 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 /TurkishVacuum/TurkishVacuum.Web/appsettings.json
+
+# Instagram erişim anahtarı (sunucuda otomatik yenilenir)
+App_Data/

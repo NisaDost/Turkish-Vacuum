@@ -1,187 +1,151 @@
-﻿@{
-    ViewData["Title"] = "Ana Sayfa";
+﻿@inject InstagramFeed InstagramFeed
+@{
+    ViewData["Title"] = T("Ana Sayfa", "Home");
+    ViewData["PageTitle"] = T("İzmir Vakum Pompası Tamiri ve 7/24 Servis | Turkish Vakum", "Vacuum Pump Repair & 24/7 Service in İzmir | Turkish Vakum");
+    ViewData["Description"] = T("Vakum pompanız mı arızalandı? İzmir merkezli 7/24 teknik servis: tamir, bakım, revizyon ve yedek parça. Tamir süresince yedek pompa (konsinye) desteğiyle üretiminiz durmasın.",
+                                "Vacuum pump down? 24/7 technical service from İzmir, Türkiye: repair, maintenance, overhaul and spare parts. Loaner pumps during repairs keep your production running.");
+    ViewData["HideCtaBand"] = true; // sayfa zaten iletişim bölümüyle bitiyor
 }
 
-<section id="ana-sayfa" class="section hero-section">
-    <div class="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="~/images/slide1.jpg" alt="Slide 1">
-                <div class="carousel-caption">
-                    <h2>Tamir & Bakım</h2>
-                    <p>Tüm marka ve model vakum pompalarınız için hızlı, güvenilir tamir ve bakım hizmeti sunuyoruz.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="~/images/slide2.jpg" alt="Slide 2">
-                <div class="carousel-caption">
-                    <h2>Yedek Parça</h2>
-                    <p>Vakum pompalarınızın ihtiyaç duyduğu orijinal ve uyumlu yedek parçaları en hızlı şekilde temin ediyoruz.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="~/images/slide3.jpg" alt="Yedek Parça">
-                <div class="carousel-caption">
-                    <h2>Yeni ve 2. El Cihazlar</h2>
-                    <p>İhtiyacınıza uygun yeni vakum pompalarını uzman desteğiyle tedarik ediyor ve kuruluma hazır halde teslim ediyoruz.</p>
-                </div>
-            </div>
+<section class="hero" aria-labelledby="hero-title">
+    <div class="hero-slides" aria-hidden="true">
+        <img class="hero-slide active" src="~/images/slide1.jpg" alt="" width="1200" height="673" fetchpriority="high" />
+        <img class="hero-slide" src="~/images/slide2.jpg" alt="" width="1642" height="1095" decoding="async" fetchpriority="low" />
+        <img class="hero-slide" src="~/images/slide3.jpg" alt="" width="1200" height="800" decoding="async" fetchpriority="low" />
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+        @if (IsEnglish)
+        {
+            <h1 id="hero-title">Vacuum Pump Repair, Maintenance &amp; <span class="text-accent">Spare Parts</span></h1>
+            <p class="hero-lead">
+                Technical service for oil-sealed, liquid ring and dry vacuum pumps of all brands, available 24/7.
+                <strong>With a loaner pump during repairs</strong>, your production keeps running.
+            </p>
+        }
+        else
+        {
+            <h1 id="hero-title">Vakum Pompası Tamir, Bakım ve <span class="text-accent">Yedek Parça</span></h1>
+            <p class="hero-lead">
+                Tüm marka yağlı, sulu ve kuru vakum pompaları için 7/24 teknik servis.
+                <strong>Tamir süresince yedek pompa desteğiyle</strong> üretiminiz aksamaz.
+            </p>
+        }
+        <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="@SiteInfo.PhoneLink">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+            </a>
+            <a class="btn btn-ghost-light btn-lg" href="@WhatsAppLink" target="_blank" rel="noopener">
+                <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("WhatsApp'tan Yazın", "Message on WhatsApp")
+            </a>
         </div>
-        <div class="carousel-indicators">
-            <span class="indicator active" onclick="currentSlide(0)"></span>
-            <span class="indicator" onclick="currentSlide(1)"></span>
-            <span class="indicator" onclick="currentSlide(2)"></span>
-        </div>
+        <ul class="hero-points">
+            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> @T("Tüm marka ve modeller", "All brands & models")</li>
+            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> @T("Yağlı · Sulu · Kuru pompalar", "Oil-sealed · Liquid ring · Dry pumps")</li>
+            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> @T("Tamir süresince yedek pompa", "Loaner pumps during repairs")</li>
+        </ul>
     </div>
 </section>
 
-<section class="section services-section">
-
-    <h3 class="section-title">Hizmetlerimiz</h3>
-
-    <div class="services-grid">
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/2.jpg" alt="Tamir" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">handyman</i>
-                <h3>Tamir</h3>
-                <p>Sertifikalı ekibimizle tüm marka ve model vakum cihazlarınızın tamirini gerçekleştiriyoruz.</p>
+<section class="features" aria-label="@T("Neden Turkish Vakum?", "Why Turkish Vakum?")">
+    <div class="features-grid">
+        <div class="feature-card" data-reveal>
+            <span class="feature-icon feature-icon--red" aria-hidden="true"><i class="bi bi-clock-history"></i></span>
+            <div>
+                <h2>@T("7/24 Ulaşılabilir", "Available 24/7")</h2>
+                <p>@T("Gece ya da hafta sonu, telefon ve WhatsApp'tan bize ulaşabilirsiniz.", "Reach us by phone or WhatsApp, including nights and weekends.")</p>
             </div>
         </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/9.jpg" alt="Bakım" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">settings_suggest</i>
-                <h3>Bakım</h3>
-                <p>Düzenli bakım hizmetleriyle eşit yaşlandırma yaparak cihazlarınızın ömrünü uzatıyor, performansını artırıyoruz.</p>
+        <div class="feature-card" data-reveal>
+            <span class="feature-icon feature-icon--blue" aria-hidden="true"><i class="bi bi-arrow-left-right"></i></span>
+            <div>
+                <h2>@T("Yedek Pompa (Konsinye)", "Loaner Pump (Consignment)")</h2>
+                <p>@T("Tamir süresince yedek pompa temin edilebilir; üretiminiz durmaz.", "A loaner pump can be supplied during repairs, so production never stops.")</p>
             </div>
         </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/6.jpg" alt="Onarım" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">build</i>
-                <h3>Onarım</h3>
-                <p>Arızalı parçaların onarımı ve değişiminde tecrübeli ustalarımızla hizmetinizdeyiz.</p>
+        <div class="feature-card" data-reveal>
+            <span class="feature-icon" aria-hidden="true"><i class="bi bi-tools"></i></span>
+            <div>
+                <h2>@T("Tüm Marka & Model", "All Brands & Models")</h2>
+                <p>@T("Yerli ve yabancı yağlı, sulu ve kuru vakum pompaları.", "Domestic and imported oil-sealed, liquid ring and dry vacuum pumps.")</p>
             </div>
         </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/1.jpg" alt="Revizyon" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">manage_history</i>
-                <h3>Revizyon</h3>
-                <p>Cihazlarınızın genel revizyonunu yaparak fabrika performansına kavuşturuyoruz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/7.png" alt="Yedek Parça" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">control_point_duplicate</i>
-                <h3>Yedek Parça</h3>
-                <p>Vakum pompalarınız için orijinal ve uyumlu yedek parçaları temin ediyoruz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/5.jpg" alt="Cihaz Temini" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">autorenew</i>
-                <h3>Cihaz Temini</h3>
-                <p>İşletmenizin çalışma prensibine uygun yeni ve ikinci el vakum pompalarını güvenilir marka seçenekleriyle sağlıyoruz.</p>
+        <div class="feature-card" data-reveal>
+            <span class="feature-icon" aria-hidden="true"><i class="bi bi-patch-check"></i></span>
+            <div>
+                <h2>@T("10+ Yıl Tecrübe", "10+ Years of Experience")</h2>
+                <p>@T("2015'ten bu yana vakum teknolojilerinde uzmanlık.", "Vacuum technology specialists since 2015.")</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section embeds-section">
-    <h2 class="section-title">Sosyal Medyada Biz</h2>
-    <div class="embeds-grid">
-        <div>
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DQExjBnDJEh/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
-            </blockquote>
+<partial name="_ArizaBildir" />
 
-        </div>
-        <div>
-            <blockquote class="instagram-media"
-                        data-instgrm-permalink="https://www.instagram.com/reel/DP52felCSLZ/?utm_source=ig_embed&amp;utm_campaign=loading"
-                        data-instgrm-version="14">
-            </blockquote>
-        </div>
-        <div>
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DRpCYAaj-6-/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14"></blockquote>
-        </div>
-        <div>
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DRkgiCSgH8E/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14"></blockquote>
-        </div>
-    </div>
+<partial name="_YedekPompa" />
 
-</section>
-
-<!-- İletişim Section -->
-<section id="iletisim" class="section contact-section">
+<section class="section process-section bg-soft" aria-labelledby="surec-title">
     <div class="container">
-        <h2 class="section-title">İletişim</h2>
-        <div class="contact-content">
-            <div class="contact-info">
-                <div class="info-item">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Nasıl Çalışıyoruz?", "How We Work")</span>
+            <h2 class="section-title" id="surec-title">@T("Arızadan teslimata 4 adım", "From breakdown to delivery in 4 steps")</h2>
+            <p class="section-lead">@T("Süreci sizin için basit tutuyoruz; siz sadece bize ulaşın.", "We keep it simple — all you have to do is get in touch.")</p>
+        </div>
+        <ol class="process-steps">
+            <li class="step" data-reveal>
+                <span class="step-no" aria-hidden="true">01</span>
+                <span class="step-icon" aria-hidden="true"><i class="bi bi-telephone-inbound-fill"></i></span>
+                <h3>@T("Bize ulaşın", "Contact us")</h3>
+                <p>@T("7/24 telefon veya WhatsApp ile arızayı bildirin.", "Report the fault 24/7 by phone or WhatsApp.")</p>
+            </li>
+            <li class="step" data-reveal>
+                <span class="step-no" aria-hidden="true">02</span>
+                <span class="step-icon" aria-hidden="true"><i class="bi bi-search"></i></span>
+                <h3>@T("Arıza tespiti", "Diagnosis")</h3>
+                <p>@T("Pompanız uzman ekibimizce incelenir ve net teşhis konur.", "Our experts inspect your pump and pinpoint the problem.")</p>
+            </li>
+            <li class="step step--highlight" data-reveal>
+                <span class="step-no" aria-hidden="true">03</span>
+                <span class="step-icon" aria-hidden="true"><i class="bi bi-arrow-left-right"></i></span>
+                <h3>@T("Yedek pompa", "Loaner pump")</h3>
+                <p>@T("Gerekirse tamir süresince yedek pompa temin edilir; üretim devam eder.", "If needed, a loaner pump is supplied during the repair so production continues.")</p>
+            </li>
+            <li class="step" data-reveal>
+                <span class="step-no" aria-hidden="true">04</span>
+                <span class="step-icon" aria-hidden="true"><i class="bi bi-check2-circle"></i></span>
+                <h3>@T("Tamir & teslim", "Repair & delivery")</h3>
+                <p>@T("Onarılan pompanız test edilir ve çalışır hâlde teslim edilir.", "Your repaired pump is tested and delivered in working order.")</p>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<partial name="_Hizmetler" />
+
+<section class="section embeds-section bg-soft" aria-labelledby="sosyal-title">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Atölyeden", "From the Workshop")</span>
+            <h2 class="section-title" id="sosyal-title">@T("Sosyal Medyada Biz", "Follow Us on Social Media")</h2>
+            <p class="section-lead">@T("Instagram'daki en çok ilgi gören tamir ve bakım paylaşımlarımız.", "Our most popular repair and maintenance posts on Instagram.")</p>
+        </div>
+        @* Gönderiler Instagram'dan otomatik seçilir (Services/InstagramSyncService.cs) *@
+        <div class="embeds-grid">
+            @foreach (var permalink in InstagramFeed.Permalinks)
+            {
+                var embedUrl = permalink + (permalink.Contains('?') ? "&" : "?") + "utm_source=ig_embed&utm_campaign=loading";
+                <div>
+                    <blockquote class="instagram-media" data-instgrm-permalink="@embedUrl" data-instgrm-version="14"></blockquote>
                 </div>
-                <div class="info-item">
-                    <i class="material-icons icon">phone</i>
-                    <div>
-                        <h4>Telefon</h4>
-                        <p>İbrahim Dost</p>
-                        <p>+90 (505) 366 26  56</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="material-icons icon">email</i>
-                    <div>
-                        <h4>E-posta</h4>
-                        <p>idost38@gmail.com</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="material-icons icon">location_on</i>
-                    <div>
-                        <h4>Adres</h4>
-                        <p>Aşık Veysel, 5847. Sk. No:11, 35100 Karabağlar/İzmir</p>
-                    </div>
-                </div>
-                <div class="social-media">
-                    <h4>Sosyal Medya</h4>
-                    <div class="social-links">
-                        <a href="https://wa.me/905053662656?text=Merhaba%2C%20vakum%20cihaz%C4%B1mda%20bir%20sorun%20ya%C5%9F%C4%B1yorum.%20Yard%C4%B1mc%C4%B1%20olabilir%20misiniz%3F" class="social-link" target="_blank">
-                            <i class="bi bi-whatsapp"></i>
-                            <span>Whatsapp</span>
-                        </a>
-                        <a href="https://www.facebook.com/share/1BTxUNQ9v2/" target="_blank" class="social-link">
-                            <i class="bi bi-facebook"></i>
-                            <span>Facebook</span>
-                        </a>
-                        <a href="https://www.instagram.com/ibrahim.dost?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link">
-                            <i class="bi bi-instagram"></i>
-                            <span>Instagram</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3127.5889501079105!2d27.135113375603648!3d38.38162947183865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbdf3be3a56009%3A0x7c429a37c86d2881!2sTurkish%20Vakum%20Cihazlar%C4%B1%20ve%20Teknolojisi%20%C4%B0zmir!5e0!3m2!1str!2str!4v1764594045522!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
+            }
+        </div>
+        <div class="embeds-more">
+            <a class="btn btn-outline" href="@SiteInfo.InstagramUrl" target="_blank" rel="noopener">
+                <i class="bi bi-instagram" aria-hidden="true"></i> @T("Instagram'da takip edin", "Follow us on Instagram")
+            </a>
         </div>
     </div>
 </section>
 
-@section Scripts {
-    <script src="~/js/site.js"></script>
-    <script async src="//www.instagram.com/embed.js"></script>
-}
+<partial name="_IletisimBilgileri" />
