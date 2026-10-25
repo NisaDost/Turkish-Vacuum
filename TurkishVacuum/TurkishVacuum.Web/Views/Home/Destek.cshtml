@@ -1,29 +1,270 @@
-﻿@{
-    ViewData["Title"] = "Destek";
+﻿@using System.Text.Json
+@{
+    ViewData["Title"] = T("Destek", "Support");
+    ViewData["PageTitle"] = T("Vakum Pompası Arızaları ve 7/24 Teknik Destek | Turkish Vakum", "Vacuum Pump Troubleshooting & 24/7 Support | Turkish Vakum");
+    ViewData["Description"] = T("Vakum pompanız çalışmıyor, ısınıyor ya da vakum değeri düşük mü? Arızanızı seçin, WhatsApp veya telefonla 7/24 destek alın. Sık karşılaşılan problemler ve bakım periyotları.",
+                                "Vacuum pump won't start, overheating or losing vacuum? Select your problem and get instant 24/7 help by WhatsApp or phone. Common problems and maintenance intervals.");
+
+    // Sık sorulan sorular: hem sayfadaki akordeon hem de Google için FAQPage verisi buradan üretilir.
+    var sorular = IsEnglish
+        ? new (string Soru, string Cevap, string Mesaj)[]
+        {
+            ("My vacuum pump won't start. What should I do?",
+             "<p>A vacuum pump that won't start can have many causes: a power outage, a faulty power cable or connection, an electric motor fault or jammed vanes.</p>" +
+             "<p>To identify the exact cause, we recommend having the unit inspected and tested by an expert technician.</p>",
+             "Hello, my vacuum pump won't start. Can you help?"),
+            ("Why is the vacuum level low?",
+             "<p>A drop in vacuum level can result from various mechanical or system issues: worn or leaking seals on the covers, worn vanes, deformation of the rotor or housing, or clogged or leaking filters and connections on the suction line.</p>" +
+             "<p>For an accurate diagnosis, we recommend having the pump checked by an expert technician.</p>",
+             "Hello, my vacuum pump isn't reaching the required vacuum level. Can you help?"),
+            ("My pump is running very hot. Is that normal?",
+             "<p>It is normal for vacuum pumps to get warm during operation, but excessive heat can be a sign of a fault. The rotor rubbing against the housing, vanes wearing the housing, bearing failure or other friction-related problems can all cause overheating.</p>" +
+             "<p>In such cases, have the unit checked by qualified technical staff before it leads to a bigger failure.</p>",
+             "Hello, my vacuum pump is overheating. Can you help?"),
+            ("How often should the oil be changed?",
+             "<p>The oil change interval depends on how intensively the pump is used. As a general guide:</p>" +
+             "<ul><li>Light use (under 8 hours a day): every 4,000 hours or once a year</li>" +
+             "<li>Medium use (8–16 hours a day): every 2,000 hours or twice a year</li>" +
+             "<li>Heavy use (over 16 hours a day): every 1,000 hours or every three months</li></ul>" +
+             "<p>When changing the oil, drain the old oil completely, clean the system and refill with the correct type of new oil. The oil filter and separator should also be checked and replaced if necessary.</p>",
+             "Hello, I'd like information about an oil change / maintenance for my vacuum pump."),
+            ("My pump is making an abnormal noise. What should I do?",
+             "<p>Abnormal noises can have many causes: a blockage in the lubrication system, worn vanes, friction in the housing or rotor, bearing failure, or problems with the separator or oil filter.</p>" +
+             "<p>For an accurate diagnosis, the unit should be checked by an expert technician and, if necessary, opened up and inspected in detail.</p>",
+             "Hello, my vacuum pump is making an abnormal noise. Can you help?"),
+            ("When should I have periodic maintenance done?",
+             "<p>Periodic maintenance should be carried out at the same intervals as oil changes to keep the vacuum pump running efficiently and reliably. Depending on usage, we recommend maintenance at approximately:</p>" +
+             "<ul><li>Pumps running 24/7: every 2,000 hours</li>" +
+             "<li>Pumps running regularly through the week: every 4,000 hours</li>" +
+             "<li>Less frequently used pumps: every 8,000 hours</li></ul>" +
+             "<p>Maintenance should include an oil change, filter and separator checks, inspection of the seals and a general review of the pump's operating condition.</p>",
+             "Hello, I'd like to request periodic maintenance for my vacuum pump."),
+            ("Will my production stop while my pump is being repaired?",
+             "<p>It doesn't have to. While your pump is being repaired in our workshop, we can supply a suitable loaner pump to your facility on consignment. Once the repair is complete, your pump is tested and returned, and the loaner pump is collected.</p>" +
+             "<p>Loaner pump availability depends on pump type, capacity and stock. Call us to check availability.</p>",
+             SiteInfo.LoanerPumpMessageEn)
+        }
+        : new (string Soru, string Cevap, string Mesaj)[]
+        {
+            ("Vakum pompası çalışmıyor, ne yapmalıyım?",
+             "<p>Vakum pompasının çalışmaması birçok farklı nedenden kaynaklanabilir. Elektrik kesintisi, güç kablosu veya bağlantılarda sorun, elektrik motorunda arıza ya da paletlerde sıkışma bu duruma sebep olabilir.</p>" +
+             "<p>Kesin nedenin belirlenebilmesi için cihazın uzman bir teknisyen tarafından incelenmesi ve gerekli kontrollerin yapılması önerilir.</p>",
+             "Merhaba, vakum pompam çalışmıyor. Yardımcı olabilir misiniz?"),
+            ("Vakum seviyesi neden düşük olabilir?",
+             "<p>Vakum seviyesinin düşmesi çeşitli mekanik veya sistemsel sorunlardan kaynaklanabilir. Kapaklardaki sızdırmazlık elemanlarında aşınma veya kaçak oluşması, paletlerde yıpranma, rotor veya gövde yapısında deformasyon, emiş hattındaki filtre ve bağlantılarda tıkanma ya da kaçak bulunması bu duruma neden olabilir.</p>" +
+             "<p>Kesin sonuca ulaşılabilmesi için vakum pompasının uzman bir teknisyen tarafından kontrol edilmesi önerilir.</p>",
+             "Merhaba, vakum pompamın vakum değeri düşük. Yardımcı olabilir misiniz?"),
+            ("Pompa çok fazla ısınıyor, bu normal mi?",
+             "<p>Vakum pompalarının çalışırken ısınması normaldir; ancak aşırı ısınma bir arızanın işareti olabilir. Gövdenin rotora temas etmesi, paletlerin gövdeyi aşındırması, rulmanlarda dağılma veya sürtünme kaynaklı sorunlar aşırı sıcaklığa neden olabilir.</p>" +
+             "<p>Bu tür durumlarda cihazın daha büyük bir arıza oluşturmaması için uzman bir teknik personel tarafından kontrol edilmesi önerilir.</p>",
+             "Merhaba, vakum pompam aşırı ısınıyor. Yardımcı olabilir misiniz?"),
+            ("Yağ değişimi ne sıklıkla yapılmalı?",
+             "<p>Yağ değişim periyodu, vakum pompasının kullanım yoğunluğuna göre değişiklik gösterebilir. Genel olarak:</p>" +
+             "<ul><li>Hafif kullanım (günde 8 saatten az): Her 4.000 saat veya yılda bir kez</li>" +
+             "<li>Orta yoğunluklu kullanım (günde 8-16 saat): Her 2.000 saat veya yılda iki kez</li>" +
+             "<li>Ağır kullanım (günde 16 saatten fazla): Her 1.000 saat veya üç ayda bir kez</li></ul>" +
+             "<p>Yağ değişimi sırasında eski yağ tamamen boşaltılmalı, sistem temizlenmeli ve uygun tipte yeni yağ eklenmelidir. Ayrıca yağ filtresi ve separatör mutlaka kontrol edilmeli, ihtiyaç hâlinde değiştirilmelidir.</p>",
+             "Merhaba, vakum pompamın yağ değişimi / bakımı için bilgi almak istiyorum."),
+            ("Cihazdan anormal ses geliyor, ne yapmalıyım?",
+             "<p>Cihazdan gelen anormal sesler birçok farklı nedenden kaynaklanabilir. Yağlama sisteminde tıkanıklık, paletlerde aşınma, gövdede veya rotorda sürtünme, rulman arızası ya da separatör ve yağ filtresinde oluşan problemler buna sebep olabilir.</p>" +
+             "<p>Kesin teşhis için cihazın uzman bir teknisyen tarafından kontrol edilmesi ve gerekli durumlarda açılarak detaylı biçimde incelenmesi önerilir.</p>",
+             "Merhaba, vakum pompamdan anormal ses geliyor. Yardımcı olabilir misiniz?"),
+            ("Periyodik bakım ne zaman yaptırmalıyım?",
+             "<p>Periyodik bakım, vakum pompasının verimli ve sorunsuz çalışabilmesi için yağ değişimiyle aynı periyotlarda yapılmalıdır. Pompanın kullanım yoğunluğuna göre şu aralıklarda bakım yapılması önerilir:</p>" +
+             "<ul><li>7/24 çalışan cihazlarda: Yaklaşık 2.000 saat</li>" +
+             "<li>Haftalık düzenli çalışan cihazlarda: Yaklaşık 4.000 saat</li>" +
+             "<li>Daha az kullanılan cihazlarda: Yaklaşık 8.000 saat</li></ul>" +
+             "<p>Bu bakım sürecinde yağ değişimi, filtre ve separatör kontrolleri, sızdırmazlık elemanlarının kontrolü ve genel çalışma durumunun gözden geçirilmesi gibi işlemler gerçekleştirilmelidir.</p>",
+             "Merhaba, vakum pompam için periyodik bakım talep etmek istiyorum."),
+            ("Pompam tamirdeyken üretimim durur mu?",
+             "<p>Durmak zorunda değil. Pompanız atölyemizde onarılırken, işletmenize uygun bir yedek pompayı konsinye olarak temin edebiliyoruz. Tamir tamamlandığında pompanız test edilerek teslim edilir, yedek pompa geri alınır.</p>" +
+             "<p>Yedek pompa temini; pompa tipi, kapasite ve stok uygunluğuna göre planlanır. Uygunluk için bizi arayabilirsiniz.</p>",
+             SiteInfo.LoanerPumpMessage)
+        };
+
+    var faqSchema = new Dictionary<string, object>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "FAQPage",
+        ["inLanguage"] = Lang,
+        ["mainEntity"] = sorular.Select(s => new Dictionary<string, object>
+        {
+            ["@type"] = "Question",
+            ["name"] = s.Soru,
+            ["acceptedAnswer"] = new Dictionary<string, object>
+            {
+                ["@type"] = "Answer",
+                ["text"] = s.Cevap
+            }
+        }).ToArray()
+    };
 }
 
-<div class="support-header-image">
-    <img src="~/images/support-header.png" alt="Support Header">
+@section Head {
+    <script type="application/ld+json">@Html.Raw(JsonSerializer.Serialize(faqSchema))</script>
+}
+
+<section class="page-hero" style="--page-hero-img: url('/images/support-header.png')">
+    <div class="container">
+        <nav class="breadcrumb" aria-label="@T("Sayfa yolu", "Breadcrumb")">
+            <a href="@PageUrl("Index")">@T("Ana Sayfa", "Home")</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">@T("Destek", "Support")</span>
+        </nav>
+        @if (IsEnglish)
+        {
+            <h1>Having trouble with <span class="text-accent">your vacuum pump?</span></h1>
+            <p>Select your problem below to reach us quickly, or read about common faults and maintenance intervals.</p>
+        }
+        else
+        {
+            <h1>Vakum pompanızda <span class="text-accent">sorun mu var?</span></h1>
+            <p>Aşağıdan sorununuzu seçerek bize hızlıca ulaşabilir ya da sık karşılaşılan arızalar ve bakım periyotları hakkında bilgi alabilirsiniz.</p>
+        }
+        <div class="btn-row">
+            <a class="btn btn-primary btn-lg" href="#ariza-bildir">
+                <i class="bi bi-ui-checks-grid" aria-hidden="true"></i> @T("Sorunumu Seçeyim", "Select My Problem")
+            </a>
+            <a class="btn btn-ghost-light btn-lg" href="@SiteInfo.PhoneLink">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<partial name="_ArizaBildir" />
+
+<div class="container">
+    <partial name="_YedekPompaBanner" />
 </div>
 
-<section class="section support-info-section">
+<section class="section support-faq-section" aria-labelledby="sss-title">
     <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Sık Sorulanlar", "FAQ")</span>
+            <h2 class="section-title" id="sss-title">@T("Sıkça Karşılaşılan Problemler", "Common Problems")</h2>
+            <p class="section-lead">@T("Belirtiye göre olası nedenler. Kesin teşhis için ekibimize ulaşın.", "Possible causes by symptom. Contact our team for an accurate diagnosis.")</p>
+        </div>
 
-        <h2 class="section-title">Vakum Pompaları Hakkında Genel Bilgilendirme</h2>
+        <div class="faq-list">
+            @foreach (var s in sorular)
+            {
+                <details class="faq-item" name="sss" data-reveal>
+                    <summary>
+                        <span>@s.Soru</span>
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
+                        @Html.Raw(s.Cevap)
+                        <a class="faq-cta" href="@SiteInfo.WhatsAppLink(s.Mesaj)" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("Bu konuda bize yazın", "Ask us about this")
+                        </a>
+                    </div>
+                </details>
+            }
+        </div>
+    </div>
+</section>
 
-        <div>
-            <div class="accordion-container support-description">
+<section class="section support-info-section bg-soft" aria-labelledby="bilgi-title">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Bilgi Bankası", "Knowledge Base")</span>
+            <h2 class="section-title" id="bilgi-title">@T("Vakum Pompaları Hakkında Genel Bilgilendirme", "General Information About Vacuum Pumps")</h2>
+        </div>
+
+        @if (IsEnglish)
+        {
+            <div class="prose" data-reveal>
                 <p>
-                    Vakum pompaları, birçok endüstriyel makinenin performansını doğrudan etkileyen ve genellikle "sistemin kalbi" olarak nitelendirilen kritik ekipmanlardır. Kullanıcı firmalar tarafından çoğu zaman detayları bilinmese de, doğru tipte vakum pompası seçimi ve düzenli bakım süreçleri, makinenin verimliliği ve ömrü açısından büyük önem taşırken aynı zamanda işletmenizin kesintisiz çalışabilmesi için vazgeçilmezdir. Vakum pompaları genel olarak üç ana
-                    grupta incelenir:
+                    Vacuum pumps are critical components that directly affect the performance of many industrial machines and are often called "the heart of the system". Although users often don't know the details, choosing the right type of vacuum pump and following a regular maintenance schedule are essential for machine efficiency and service life — and for keeping your business running without interruption. Vacuum pumps generally fall into three main groups:
                 </p>
-                <!-- Accordion Item 1 -->
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item" name="tipler" data-reveal>
+                    <summary>
+                        <span>1. Oil-Sealed Vacuum Pumps</span>
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
+                        <p>
+                            Oil-sealed vacuum pumps use oil to seal the pumping chamber, which gives them high suction performance
+                            and makes them more powerful than other pump types. However, depending on operating hours, they require
+                            periodic maintenance at <strong>2,000, 4,000 or 8,000-hour</strong> intervals.
+                        </p>
+                        <p>
+                            Depending on the pump's condition, light or heavy maintenance may be needed. We strongly recommend that
+                            this work is carried out by experienced specialists.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq-item" name="tipler" data-reveal>
+                    <summary>
+                        <span>2. Liquid Ring (Water) Vacuum Pumps</span>
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
+                        <p>
+                            Liquid ring vacuum pumps create suction with a rotating ring of water, so they are specially designed
+                            to operate in contact with water. Various models are available for different applications.
+                        </p>
+                        <p>
+                            Periodic maintenance suited to the way the pump is used is essential for maintaining performance
+                            and high efficiency.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq-item" name="tipler" data-reveal>
+                    <summary>
+                        <span>3. Dry Vacuum Pumps</span>
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
+                        <p>
+                            Dry vacuum pumps create suction with air alone, without oil or water in the pumping chamber.
+                            They include <strong>screw</strong>, <strong>claw</strong>, <strong>dry rotary vane</strong>
+                            and <strong>booster</strong> type models.
+                        </p>
+                        <p>
+                            Since each model has a different operating principle and application, maintenance requirements
+                            should be assessed model by model.
+                        </p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="prose" data-reveal>
+                <p>
+                    Vacuum pumps are critical equipment used in industrial and scientific applications. They create a low-pressure environment by removing air or gas. Correct use and regular maintenance are vital for machine performance and service life. If a pump makes unusual or louder-than-normal noise during operation, this usually indicates a mechanical fault or a need for maintenance and should always be taken seriously.
+                </p>
+                <p>
+                    Regular maintenance includes oil changes, filter cleaning, checking the seals, and monitoring operating
+                    temperature and vibration levels.
+                </p>
+                <p>
+                    Correct installation is also essential for efficient operation: the pump should be placed in a suitable
+                    environment, vibration isolation should be provided and an appropriate power supply should be used.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="prose" data-reveal>
+                <p>
+                    Vakum pompaları, birçok endüstriyel makinenin performansını doğrudan etkileyen ve genellikle "sistemin kalbi" olarak nitelendirilen kritik ekipmanlardır. Kullanıcı firmalar tarafından çoğu zaman detayları bilinmese de, doğru tipte vakum pompası seçimi ve düzenli bakım süreçleri, makinenin verimliliği ve ömrü açısından büyük önem taşırken aynı zamanda işletmenizin kesintisiz çalışabilmesi için vazgeçilmezdir. Vakum pompaları genel olarak üç ana grupta incelenir:
+                </p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item" name="tipler" data-reveal>
+                    <summary>
                         <span>1. Yağlı Vakum Pompaları</span>
-                        <i class="material-icons accordion-icon">expand_more</i>
-                    </button>
-                    <div class="accordion-content">
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
                         <p>
                             Yağlı vakum pompaları, yağ ile oluşturulan helezyon hareketi sayesinde yüksek emiş gücü sağlar.
                             Bu nedenle diğer vakum pompası tiplerine göre daha güçlüdür. Ancak çalışma saatine bağlı olarak
@@ -34,15 +275,14 @@
                             konuya hâkim, işinde uzman kişiler tarafından yapılması tavsiye edilir.
                         </p>
                     </div>
-                </div>
+                </details>
 
-                <!-- Accordion Item 2 -->
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                <details class="faq-item" name="tipler" data-reveal>
+                    <summary>
                         <span>2. Sulu Vakum Pompaları</span>
-                        <i class="material-icons accordion-icon">expand_more</i>
-                    </button>
-                    <div class="accordion-content">
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
                         <p>
                             Sulu vakum pompaları, su ile oluşturulan helezyon hareketi sayesinde emiş yapar ve bu nedenle
                             su ile temaslı çalışan özel bir yapıya sahiptir. Farklı kullanım alanlarına yönelik çeşitli
@@ -53,15 +293,14 @@
                             ve yüksek verimlilik elde edilmesi açısından oldukça önemlidir.
                         </p>
                     </div>
-                </div>
+                </details>
 
-                <!-- Accordion Item 3 -->
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                <details class="faq-item" name="tipler" data-reveal>
+                    <summary>
                         <span>3. Kuru Vakum Pompaları</span>
-                        <i class="material-icons accordion-icon">expand_more</i>
-                    </button>
-                    <div class="accordion-content">
+                        <i class="bi bi-chevron-down faq-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-body">
                         <p>
                             Kuru vakum pompaları, yağ veya su yerine hava helezyonu ile emiş yapar.
                             Kendi içinde <strong>vidalı</strong>, <strong>kancalı</strong>, <strong>kuru paletli</strong>
@@ -72,185 +311,23 @@
                             de model bazında değerlendirilmelidir.
                         </p>
                     </div>
-                </div>
-
-                <div class="support-description">
-                    <p>
-                        Vakum pompaları, endüstriyel ve bilimsel uygulamalarda kullanılan kritik ekipmanlardır. Ortamdaki hava veya gazı uzaklaştırarak düşük basınçlı ortam oluştururlar. Vakum pompalarının doğru kullanımı ve düzenli bakımı, makine performansı ve ömrü açısından büyük önem taşır. Pompanın çalışma sırasında normalden farklı veya yüksek ses üretmesi, genellikle mekanik bir arızanın veya bakım ihtiyacının işareti olduğundan mutlaka ciddiye alınmalıdır.
-                    </p>
-                    <p>
-                        Düzenli bakım işlemleri arasında yağ değişimi, filtre temizliği, sızdırmazlık elemanlarının
-                        kontrolü, çalışma sıcaklığı ve titreşim seviyelerinin izlenmesi yer alır.
-                    </p>
-                    <p>
-                        Vakum pompalarının verimli çalışabilmesi için doğru montaj da oldukça önemlidir.
-                        Pompanın çevresel koşullara uygun bir alana yerleştirilmesi, titreşim izolasyonunun sağlanması
-                        ve uygun güç kaynağının kullanılması gerekmektedir.
-                    </p>
-                </div>
-
+                </details>
             </div>
-        </div>
-    </div>
-</section>
 
-<section class="section support-faq-section">
-
-    <h2 class="section-title">Sıkça Karşılaşılan Problemler</h2>
-
-    <div class="accordion-container">
-        <!-- Accordion Item 1 -->
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">
-                <span>Vakum pompası çalışmıyor, ne yapmalıyım?</span>
-                <i class="material-icons accordion-icon">expand_more</i>
-            </button>
-            <div class="accordion-content">
+            <div class="prose" data-reveal>
                 <p>
-                    Vakum pompasının çalışmaması birçok farklı nedenden kaynaklanabilir. Elektrik kesintisi, güç kablosu veya bağlantılarda sorun, elektrik motorunda arıza ya da paletlerde sıkışma bu duruma sebep olabilir.
+                    Vakum pompaları, endüstriyel ve bilimsel uygulamalarda kullanılan kritik ekipmanlardır. Ortamdaki hava veya gazı uzaklaştırarak düşük basınçlı ortam oluştururlar. Vakum pompalarının doğru kullanımı ve düzenli bakımı, makine performansı ve ömrü açısından büyük önem taşır. Pompanın çalışma sırasında normalden farklı veya yüksek ses üretmesi, genellikle mekanik bir arızanın veya bakım ihtiyacının işareti olduğundan mutlaka ciddiye alınmalıdır.
                 </p>
                 <p>
-                    Kesin nedenin belirlenebilmesi için cihazın uzman bir teknisyen tarafından incelenmesi ve gerekli kontrollerin yapılması önerilir.
+                    Düzenli bakım işlemleri arasında yağ değişimi, filtre temizliği, sızdırmazlık elemanlarının
+                    kontrolü, çalışma sıcaklığı ve titreşim seviyelerinin izlenmesi yer alır.
+                </p>
+                <p>
+                    Vakum pompalarının verimli çalışabilmesi için doğru montaj da oldukça önemlidir.
+                    Pompanın çevresel koşullara uygun bir alana yerleştirilmesi, titreşim izolasyonunun sağlanması
+                    ve uygun güç kaynağının kullanılması gerekmektedir.
                 </p>
             </div>
-        </div>
-
-        <!-- Accordion Item 2 -->
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">
-                <span>Vakum seviyesi neden düşük olabilir?</span>
-                <i class="material-icons accordion-icon">expand_more</i>
-            </button>
-            <div class="accordion-content">
-                <p>
-                    Vakum seviyesinin düşmesi çeşitli mekanik veya sistemsel sorunlardan kaynaklanabilir. Kapaklardaki sızdırmazlık elemanlarında aşınma veya kaçak oluşması, paletlerde yıpranma, rotor veya gövde yapısında deformasyon, emiş hattındaki filtre ve bağlantılarda tıkanma ya da kaçak bulunması bu duruma neden olabilir.
-                </p>
-                <p>
-                    Kesin sonuca ulaşılabilmesi için vakum pompasının uzman bir teknisyen tarafından kontrol edilmesi önerilir.
-                </p>
-            </div>
-        </div>
-
-        <!-- Accordion Item 3 -->
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">
-                <span>Pompa çok fazla ısınıyor, bu normal mi?</span>
-                <i class="material-icons accordion-icon">expand_more</i>
-            </button>
-            <div class="accordion-content">
-                <p>
-                    Vakum pompalarının çalışırken ısınması normaldir; ancak aşırı ısınma bir arızanın işareti olabilir. Gövdenin rotora temas etmesi, paletlerin gövdeyi aşındırması, rulmanlarda dağılma veya sürtünme kaynaklı sorunlar aşırı sıcaklığa neden olabilir.
-
-                </p>
-                <p>
-                    Bu tür durumlarda cihazın daha büyük bir arıza oluşturmaması için uzman bir teknik personel tarafından kontrol edilmesi önerilir.
-                </p>
-            </div>
-        </div>
-
-        <!-- Accordion Item 4 -->
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">
-                <span>Yağ değişimi ne sıklıkla yapılmalı?</span>
-                <i class="material-icons accordion-icon">expand_more</i>
-            </button>
-            <div class="accordion-content">
-                <p>
-                    Yağ değişim periyodu, vakum pompasının kullanım yoğunluğuna göre değişiklik gösterebilir. Genel olarak:
-
-                    <ul>
-                        <li>Hafif kullanım (günde 8 saatten az): Her 4.000 saat veya yılda bir kez</li>
-                        <li>Orta yoğunluklu kullanım (günde 8-16 saat): Her 2.000 saat veya yılda iki kez</li>
-                        <li>Ağır kullanım (günde 16 saatten fazla): Her 1.000 saat veya üç ayda bir kez</li>
-                    </ul>
-                </p>
-                <p>
-                    Yağ değişimi sırasında eski yağ tamamen boşaltılmalı, sistem temizlenmeli ve uygun tipte yeni yağ eklenmelidir. Ayrıca yağ filtresi ve separatör mutlaka kontrol edilmeli, ihtiyaç halinde değiştirilmelidir.
-                </p>
-            </div>
-        </div>
-
-        <!-- Accordion Item 5 -->
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">
-                <span>Cihazdan anormal ses geliyor, ne yapmalıyım?</span>
-                <i class="material-icons accordion-icon">expand_more</i>
-            </button>
-            <div class="accordion-content">
-                <p>
-                    Cihazdan gelen anormal sesler birçok farklı nedenden kaynaklanabilir. Yağlama sisteminde tıkanıklık, paletlerde aşınma, gövdede veya rotorda sürtünme, rulman arızası ya da separatör ve yağ filtresinde oluşan problemler buna sebep olabilir.
-                </p>
-                <p>
-                    Kesin teşhis için cihazın uzman bir teknisyen tarafından kontrol edilmesi ve gerekli durumlarda açılarak detaylı biçimde incelenmesi önerilir.
-                </p>
-            </div>
-        </div>
-
-        <!-- Accordion Item 6 -->
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">
-                <span>Periyodik bakım ne zaman yaptırmalıyım?</span>
-                <i class="material-icons accordion-icon">expand_more</i>
-            </button>
-            <div class="accordion-content">
-                <p>
-                    Periyodik bakım, vakum pompasının verimli ve sorunsuz çalışabilmesi için yağ değişimiyle aynı periyotlarda yapılmalıdır. Yani pompanın kullanım yoğunluğuna göre:
-                    <ul >
-                        <li>
-                            7/24 çalışan cihazlarda: Yaklaşık 2000 saat
-                        </li>
-                        <li>
-                            Haftalık düzenli çalışan cihazlarda: Yaklaşık 4000 saat
-                        </li>
-                        <li>
-                            Daha az kullanılan cihazlarda: Yaklaşık 8000 saat
-                        </li>
-                    </ul>
-                </p>
-                <p>
-                    aralıklarında bakım yapılması önerilir.
-                </p>
-                <p>
-                    Bu bakım sürecinde yağ değişimi, filtre ve separatör kontrolleri, sızdırmazlık elemanlarının kontrolü ve genel çalışma durumunun gözden geçirilmesi gibi işlemler gerçekleştirilmelidir.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="support-contact">
-        <p>Sorununuza çözüm bulamadınız mı?</p>
-        <a href="@Url.Action("Iletisim", "Home")" class="contact-button">
-            <i class="material-icons icon">phone</i>
-            Çözüm için bize ulaşın.
-        </a>
-    </div>
-
-</section>
-
-@section Scripts {
-    <script>
-        function toggleAccordion(button) {
-            const accordionItem = button.parentElement;
-            const content = accordionItem.querySelector('.accordion-content');
-            const icon = button.querySelector('.accordion-icon');
-            const isActive = accordionItem.classList.contains('active');
-
-            // Close all other accordions
-            document.querySelectorAll('.accordion-item').forEach(item => {
-                if (item !== accordionItem) {
-                    item.classList.remove('active');
-                    item.querySelector('.accordion-icon').textContent = 'expand_more';
-                }
-            });
-
-            // Toggle current accordion
-            if (isActive) {
-                accordionItem.classList.remove('active');
-                icon.textContent = 'expand_more';
-            } else {
-                accordionItem.classList.add('active');
-                icon.textContent = 'expand_less';
-            }
         }
-    </script>
-}
+    </div>
+</section>

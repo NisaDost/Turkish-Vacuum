@@ -1,68 +1,97 @@
 ﻿@{
-    ViewData["Title"] = "Yedek Parça";
+    ViewData["Title"] = T("Yedek Parça", "Spare Parts");
+    ViewData["PageTitle"] = T("Vakum Pompası Yedek Parça ve Cihaz Temini | Turkish Vakum", "Vacuum Pump Spare Parts & Pump Supply | Turkish Vakum");
+    ViewData["Description"] = T("Her marka vakum pompası için palet, filtre, separatör, conta, salmastra, rulman, yağ ve bakım kitleri. Sıfır ve 2. el vakum pompası temini. Hızlı tedarik için bize ulaşın.",
+                                "Vanes, filters, separators, gaskets, seals, bearings, oil and service kits for all vacuum pump brands. New and used vacuum pump supply. Contact us for fast sourcing.");
+
+    var urunler = IsEnglish
+        ? new (string Gorsel, string Baslik, string Aciklama)[]
+        {
+            ("cihazlar.png", "New & Used Vacuum Pumps", "Oil-sealed, liquid ring and dry vacuum pumps of all brands"),
+            ("yeek-parca.png", "Machine Parts", "Housings, covers, rotors, check valves, impellers, stage plates, copper pipes and more"),
+            ("sizdirmazlik.png", "Seals for Oil-Sealed & Dry Pumps", "O-rings, gaskets, Klingerit sheet gaskets, oil seals and more"),
+            ("salmastra.png", "Seals for Liquid Ring Pumps", "Mechanical seals, gland packing"),
+            ("filtreler.png", "Filters", "Oil filters, separators, air filters and filter housings"),
+            ("paletler.png", "Vanes", "Carbon vanes, fibre vanes"),
+            ("oil.jpg", "Oils", "Hydraulic oil, synthetic oil"),
+            ("rulmanlar.jpg", "Bearing Sets", "Bearings in various brands, models and sizes")
+        }
+        : new (string Gorsel, string Baslik, string Aciklama)[]
+        {
+            ("cihazlar.png", "Sıfır ve 2. El Vakum Cihazları", "Her marka yağlı, sulu ve kuru vakum pompaları"),
+            ("yeek-parca.png", "Makine Parçaları", "Gövde, Kapak, Rotor, Çekvalf, Pervane, Kademe Plakası, Bakır Boru ve diğer parçalar"),
+            ("sizdirmazlik.png", "Yağlı ve Kuru Vakum Sızdırmazlık Ekipmanları", "O-Ring, Conta, Klingerit, Yağ Keçesi ve diğer elemanlar"),
+            ("salmastra.png", "Sulu Vakum Sızdırmazlık Ekipmanları", "Mekanik Salmastra, İp Salmastra"),
+            ("filtreler.png", "Filtreler", "Yağ Filtresi, Separatör, Hava Filtresi ve Kabini"),
+            ("paletler.png", "Paletler", "Karbon Palet, Fiber Palet"),
+            ("oil.jpg", "Yağlar", "Hidrolik Yağ, Sentetik Yağ"),
+            ("rulmanlar.jpg", "Rulman Setleri", "Çeşitli marka, model ve ebatlarda rulmanlar")
+        };
+
+    var parcaTalebi = T("Merhaba, vakum pompam için yedek parça talep etmek istiyorum.", "Hello, I'd like to request spare parts for my vacuum pump.");
 }
 
-<!-- Katalog Section -->
-<section id="katalog" class="section catalog-section">
+<section class="page-hero" style="--page-hero-img: url('/images/9.jpg')">
     <div class="container">
-        <h2 class="section-title">Yedek Parça ve Cihaz Temini</h2>
-
-        <div class="catalog-description">
+        <nav class="breadcrumb" aria-label="@T("Sayfa yolu", "Breadcrumb")">
+            <a href="@PageUrl("Index")">@T("Ana Sayfa", "Home")</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">@T("Yedek Parça", "Spare Parts")</span>
+        </nav>
+        @if (IsEnglish)
+        {
+            <h1>Spare Parts &amp; <span class="text-accent">Pump Supply</span></h1>
+            <p>
+                We offer original and compatible spare parts and service kits for all domestic and imported vacuum pump brands.
+                From wear parts to routine replacement items, we supply kits, gaskets, filters and other maintenance products to keep your pumps running efficiently.
+            </p>
+        }
+        else
+        {
+            <h1>Yedek Parça ve <span class="text-accent">Cihaz Temini</span></h1>
             <p>
                 Yerli ve yabancı üretim her marka vakum pompası için orijinal ve uyumlu yedek parça ve bakım kitleri sunuyoruz.
-            </p>
-            <p>
                 Aşınan veya düzenli değişmesi gereken parçalar için uygun kitler, contalar, filtreler ve çeşitli bakım ürünlerini temin ederek pompalarınızın verimli çalışmasına destek oluyoruz.
-                
             </p>
-            <a href="@Url.Action("Iletisim", "Home")" class="contact-button">
-                <i class="material-icons icon">phone_in_talk</i>
-                Detaylı bilgi ve talepleriniz için bize ulaşın.
+        }
+        <div class="btn-row">
+            <a class="btn btn-whatsapp btn-lg" href="@SiteInfo.WhatsAppLink(parcaTalebi)" target="_blank" rel="noopener">
+                <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("Parça Talebi Gönder", "Send a Parts Request")
             </a>
+            <a class="btn btn-ghost-light btn-lg" href="@SiteInfo.PhoneLink">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+            </a>
+        </div>
+    </div>
+</section>
 
+<section id="katalog" class="section catalog-section bg-soft" aria-labelledby="katalog-title">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Ürün Grupları", "Product Groups")</span>
+            <h2 class="section-title" id="katalog-title">@T("Tedarik Ettiğimiz Parçalar", "Parts We Supply")</h2>
+            <p class="section-lead">@T("Pompanızın marka ve modelini yazın, uygun parçayı hızlıca bulalım. Etiket fotoğrafı göndermeniz yeterli.", "Tell us your pump's make and model and we'll quickly find the right part. A photo of the nameplate is enough.")</p>
         </div>
 
         <div class="catalog-grid">
-            <div class="catalog-item">
-                <img src="~/images/cihazlar.png" alt="Vakum Cihazları">
-                <h3>Sıfır ve 2. El Vakum Cihazları</h3>
-                <p>Her marka yağlı, sulu ve kuru vakum pompaları</p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/yeek-parca.png" alt="Vakum Cihazları">
-                <h3>Makine Parçaları</h3>
-                <p>Gövde, Kapak, Rotor, Çekvalf, Pervane, Kademe Plakası, Bakır Boru ve diğer parçalar  </p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/sizdirmazlik.png" alt="Sızdırmazlık Ekipmanları">
-                <h3>Yağlı ve Kuru Vakum Sızdırmazlık Ekipmanları</h3>
-                <p>O-Ring, Conta, Klingerit, Yağ Keçesi ve diğer elemanlar </p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/salmastra.png" alt="Salmastralar">
-                <h3>Sulu Vakum Sızdırmazlık Ekipmanları</h3>
-                <p>Mekanik Salmastra, İp Salmastra</p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/filtreler.png" alt="Filtreler">
-                <h3>Filtreler</h3>
-                <p>Yağ Filtresi, Seperator, Hava Filtresi ve Kabini</p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/paletler.png" alt="Paletler">
-                <h3>Paletler</h3>
-                <p>Karbon Palet, Fiber Palet </p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/oil.jpg" alt="Yağ">
-                <h3>Yağlar</h3>
-                <p>Hidrolik Yağ, Sentetik Yağ</p>
-            </div>
-            <div class="catalog-item">
-                <img src="~/images/rulmanlar.jpg" alt="Rulmanlar">
-                <h3>Rulman Setleri</h3>
-                <p>Çeşitli marka, model ve ebatlarda rulmanlar</p>
-            </div>
+            @foreach (var urun in urunler)
+            {
+                var talep = T($"Merhaba, {urun.Baslik} hakkında bilgi ve fiyat almak istiyorum.", $"Hello, I'd like information and a price for: {urun.Baslik}.");
+                <article class="catalog-item" data-reveal>
+                    <div class="catalog-image">
+                        <img src="@Url.Content("~/images/" + urun.Gorsel)" alt="@urun.Baslik" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="catalog-body">
+                        <h3>@urun.Baslik</h3>
+                        <p>@urun.Aciklama</p>
+                        <a class="catalog-link" href="@SiteInfo.WhatsAppLink(talep)" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp" aria-hidden="true"></i> @T("Bilgi & fiyat al", "Get info & price")
+                        </a>
+                    </div>
+                </article>
+            }
         </div>
+
+        <partial name="_YedekPompaBanner" />
     </div>
 </section>

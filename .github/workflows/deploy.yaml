@@ -16,11 +16,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
 
-    - name: Publish API
+    # Self-contained: .NET çalışma zamanı uygulamayla birlikte paketlenir,
+    # sunucuda .NET kurulu olması gerekmez. Sunucu ARM ise linux-arm64 kullanın.
+    - name: Publish Web
       working-directory: TurkishVacuum
-      run: dotnet publish -c Release -o ${{ github.workspace }}/publish
+      run: dotnet publish TurkishVacuum.Web/TurkishVacuum.Web.csproj -c Release -r linux-x64 --self-contained true -o ${{ github.workspace }}/publish
 
     - name: Deploy to VPS
       uses: appleboy/scp-action@v0.1.7
@@ -39,5 +41,6 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
+          chmod +x /var/www/turkishvacuum/web/publish/TurkishVacuum.Web
           sudo systemctl restart turkishvacuum-web
           sudo systemctl status turkishvacuum-web --no-pager

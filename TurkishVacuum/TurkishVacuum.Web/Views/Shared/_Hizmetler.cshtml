@@ -1,0 +1,46 @@
+@{
+    var hizmetler = IsEnglish
+        ? new (string Gorsel, string Ikon, string Baslik, string Aciklama)[]
+        {
+            ("2.jpg", "bi-tools", "Repair", "Our certified team repairs vacuum equipment of all brands and models."),
+            ("9.jpg", "bi-gear-wide-connected", "Maintenance", "Regular maintenance keeps components wearing evenly, extending equipment life and boosting performance."),
+            ("6.jpg", "bi-wrench-adjustable", "Parts Repair", "Our experienced technicians repair and replace faulty components."),
+            ("1.jpg", "bi-arrow-repeat", "Overhaul", "We carry out complete overhauls to restore your equipment to factory performance."),
+            ("7.png", "bi-box-seam", "Spare Parts", "We supply original and compatible spare parts for your vacuum pumps."),
+            ("5.jpg", "bi-truck", "Pump Supply", "We supply new and used vacuum pumps from trusted brands, matched to the way your business works.")
+        }
+        : new (string Gorsel, string Ikon, string Baslik, string Aciklama)[]
+        {
+            ("2.jpg", "bi-tools", "Tamir", "Sertifikalı ekibimizle tüm marka ve model vakum cihazlarınızın tamirini gerçekleştiriyoruz."),
+            ("9.jpg", "bi-gear-wide-connected", "Bakım", "Düzenli bakım hizmetleriyle eşit yaşlandırma yaparak cihazlarınızın ömrünü uzatıyor, performansını artırıyoruz."),
+            ("6.jpg", "bi-wrench-adjustable", "Onarım", "Arızalı parçaların onarımı ve değişiminde tecrübeli ustalarımızla hizmetinizdeyiz."),
+            ("1.jpg", "bi-arrow-repeat", "Revizyon", "Cihazlarınızın genel revizyonunu yaparak fabrika performansına kavuşturuyoruz."),
+            ("7.png", "bi-box-seam", "Yedek Parça", "Vakum pompalarınız için orijinal ve uyumlu yedek parçaları temin ediyoruz."),
+            ("5.jpg", "bi-truck", "Cihaz Temini", "İşletmenizin çalışma prensibine uygun yeni ve ikinci el vakum pompalarını güvenilir marka seçenekleriyle sağlıyoruz.")
+        };
+}
+
+<section class="section services-section" aria-labelledby="hizmetler-title">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Neler Yapıyoruz?", "What We Do")</span>
+            <h2 class="section-title" id="hizmetler-title">@T("Hizmetlerimiz", "Our Services")</h2>
+            <p class="section-lead">@T("Yerli ve yabancı tüm marka yağlı, sulu ve kuru vakum pompaları için uçtan uca teknik servis.", "End-to-end technical service for oil-sealed, liquid ring and dry vacuum pumps of all brands.")</p>
+        </div>
+
+        <div class="services-grid">
+            @foreach (var hizmet in hizmetler)
+            {
+                <article class="service-card" data-reveal>
+                    <img src="@Url.Content("~/images/" + hizmet.Gorsel)" alt="" class="service-bg" loading="lazy" decoding="async" />
+                    <div class="service-overlay"></div>
+                    <div class="service-content">
+                        <span class="service-icon" aria-hidden="true"><i class="bi @hizmet.Ikon"></i></span>
+                        <h3>@hizmet.Baslik</h3>
+                        <p>@hizmet.Aciklama</p>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

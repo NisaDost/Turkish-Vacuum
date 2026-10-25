@@ -1,0 +1,60 @@
+@*
+    Arızalı makinesi olan ziyaretçi makale okumak zorunda kalmadan sorununu tek tıkla bildirir:
+    her kart, ilgili mesajı hazır yazılmış bir WhatsApp sohbeti açar.
+*@
+@{
+    var arizalar = IsEnglish
+        ? new (string Ikon, string Baslik, string Mesaj)[]
+        {
+            ("bi-power", "Pump won't start", "Hello, my vacuum pump won't start. Can you help?"),
+            ("bi-speedometer2", "Low vacuum level", "Hello, my vacuum pump isn't reaching the required vacuum level. Can you help?"),
+            ("bi-thermometer-high", "Overheating", "Hello, my vacuum pump is overheating. Can you help?"),
+            ("bi-soundwave", "Abnormal noise / vibration", "Hello, my vacuum pump is making abnormal noise and vibrating. Can you help?"),
+            ("bi-droplet-half", "Oil leak / oil mist", "Hello, my vacuum pump has an oil leak / is emitting oil mist. Can you help?"),
+            ("bi-calendar2-check", "Periodic maintenance", "Hello, I'd like to request periodic maintenance for my vacuum pump."),
+            ("bi-arrow-left-right", "Loaner pump request", SiteInfo.LoanerPumpMessageEn),
+            ("bi-box-seam", "Spare parts request", "Hello, I'd like to request spare parts for my vacuum pump.")
+        }
+        : new (string Ikon, string Baslik, string Mesaj)[]
+        {
+            ("bi-power", "Pompa çalışmıyor", "Merhaba, vakum pompam çalışmıyor. Yardımcı olabilir misiniz?"),
+            ("bi-speedometer2", "Vakum değeri düşük", "Merhaba, vakum pompamın vakum değeri düşük. Yardımcı olabilir misiniz?"),
+            ("bi-thermometer-high", "Aşırı ısınma", "Merhaba, vakum pompam aşırı ısınıyor. Yardımcı olabilir misiniz?"),
+            ("bi-soundwave", "Anormal ses / titreşim", "Merhaba, vakum pompamdan anormal ses ve titreşim geliyor. Yardımcı olabilir misiniz?"),
+            ("bi-droplet-half", "Yağ kaçağı / dumanlama", "Merhaba, vakum pompamda yağ kaçağı / dumanlama var. Yardımcı olabilir misiniz?"),
+            ("bi-calendar2-check", "Periyodik bakım", "Merhaba, vakum pompam için periyodik bakım talep etmek istiyorum."),
+            ("bi-arrow-left-right", "Yedek pompa talebi", SiteInfo.LoanerPumpMessage),
+            ("bi-box-seam", "Yedek parça talebi", "Merhaba, vakum pompam için yedek parça talep etmek istiyorum.")
+        };
+}
+
+<section class="section quick-help" id="ariza-bildir" aria-labelledby="ariza-bildir-title">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("Hızlı Destek", "Quick Support")</span>
+            <h2 class="section-title" id="ariza-bildir-title">@T("Sorununuzu seçin, size dönüş yapalım", "Select your problem and we'll get back to you")</h2>
+            <p class="section-lead">@T("Uzun açıklamalara gerek yok. Sorununuzu seçin, WhatsApp mesajınız hazır olarak açılsın.", "No long explanations needed. Pick your problem and a ready-made WhatsApp message opens.")</p>
+        </div>
+
+        <div class="quick-help-grid">
+            <div class="issue-grid">
+                @foreach (var ariza in arizalar)
+                {
+                    <a class="issue-card" href="@SiteInfo.WhatsAppLink(ariza.Mesaj)" target="_blank" rel="noopener" data-reveal>
+                        <span class="issue-icon" aria-hidden="true"><i class="bi @ariza.Ikon"></i></span>
+                        <span class="issue-title">@ariza.Baslik</span>
+                        <i class="bi bi-whatsapp issue-go" aria-hidden="true"></i>
+                    </a>
+                }
+            </div>
+
+            <aside class="call-card" data-reveal>
+                <h3>@T("Telefonla görüşmeyi mi tercih edersiniz?", "Prefer to talk on the phone?")</h3>
+                <p>@T("Arızayı telefonda birlikte değerlendirelim. Gece ya da hafta sonu, 7/24 ulaşabilirsiniz.", "We can assess the fault together over the phone. You can reach us 24/7, including nights and weekends.")</p>
+                <a class="btn btn-light btn-lg btn-block" href="@SiteInfo.PhoneLink">
+                    <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+                </a>
+            </aside>
+        </div>
+    </div>
+</section>

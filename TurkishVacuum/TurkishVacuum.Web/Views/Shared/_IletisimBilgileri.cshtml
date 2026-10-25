@@ -1,0 +1,61 @@
+@* Ana sayfa ve İletişim sayfasında ortak kullanılan iletişim kartları ve harita *@
+<section id="iletisim" class="section contact-section" aria-labelledby="iletisim-title">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <span class="eyebrow">@T("İletişim", "Contact")</span>
+            <h2 class="section-title" id="iletisim-title">@T("Çözümlerimizle bir telefon uzağınızdayız", "We're just a phone call away")</h2>
+            <p class="section-lead">@T("Arıza, bakım, yedek parça ya da yedek pompa talepleriniz için 7/24 ulaşabilirsiniz.", "Reach us 24/7 for breakdowns, maintenance, spare parts or loaner pump requests.")</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <a class="info-item info-item--primary" href="@SiteInfo.PhoneLink" data-reveal>
+                    <span class="info-icon" aria-hidden="true"><i class="bi bi-telephone-fill"></i></span>
+                    <span class="info-text">
+                        <span class="info-label">@T("Telefon · 7/24", "Phone · 24/7")</span>
+                        <span class="info-big">@PhoneText</span>
+                        <span>@SiteInfo.ContactPerson</span>
+                    </span>
+                    <i class="bi bi-arrow-right info-arrow" aria-hidden="true"></i>
+                </a>
+                <a class="info-item" href="@WhatsAppLink" target="_blank" rel="noopener" data-reveal>
+                    <span class="info-icon info-icon--wa" aria-hidden="true"><i class="bi bi-whatsapp"></i></span>
+                    <span class="info-text">
+                        <span class="info-label">WhatsApp</span>
+                        <span class="info-value">@T("Fotoğraf veya video ile arızayı gönderin", "Send photos or videos of the fault")</span>
+                    </span>
+                    <i class="bi bi-arrow-right info-arrow" aria-hidden="true"></i>
+                </a>
+                <a class="info-item" href="mailto:@SiteInfo.Email" data-reveal>
+                    <span class="info-icon" aria-hidden="true"><i class="bi bi-envelope-fill"></i></span>
+                    <span class="info-text">
+                        <span class="info-label">@T("E-posta", "Email")</span>
+                        <span class="info-value">@SiteInfo.Email</span>
+                    </span>
+                    <i class="bi bi-arrow-right info-arrow" aria-hidden="true"></i>
+                </a>
+                <a class="info-item" href="@SiteInfo.MapsUrl" target="_blank" rel="noopener" data-reveal>
+                    <span class="info-icon" aria-hidden="true"><i class="bi bi-geo-alt-fill"></i></span>
+                    <span class="info-text">
+                        <span class="info-label">@T("Adres · Yol tarifi al", "Address · Get directions")</span>
+                        <span class="info-value">@(SiteInfo.Address + T("", ", Türkiye"))</span>
+                    </span>
+                    <i class="bi bi-arrow-right info-arrow" aria-hidden="true"></i>
+                </a>
+
+                <div class="social-links" data-reveal>
+                    <a href="@SiteInfo.FacebookUrl" target="_blank" rel="noopener" class="social-link">
+                        <i class="bi bi-facebook" aria-hidden="true"></i> Facebook
+                    </a>
+                    <a href="@SiteInfo.InstagramUrl" target="_blank" rel="noopener" class="social-link">
+                        <i class="bi bi-instagram" aria-hidden="true"></i> Instagram
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-map" data-reveal>
+                <iframe src="@SiteInfo.MapsEmbedUrl" title="@SiteInfo.ShortName @T("konum haritası", "location map")" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</section>

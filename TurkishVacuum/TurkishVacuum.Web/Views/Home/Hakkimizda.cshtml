@@ -1,110 +1,96 @@
 ﻿@{
-    ViewData["Title"] = "Hakkımızda";
+    ViewData["Title"] = T("Hakkımızda", "About Us");
+    ViewData["PageTitle"] = T("Hakkımızda | Turkish Vakum Cihazları ve Teknolojisi", "About Us | Turkish Vakum – Vacuum Pump Specialists");
+    ViewData["Description"] = T("2015'ten bu yana yağlı, sulu ve kuru vakum pompalarının tamir, bakım ve teknik servisinde uzman. İzmir merkezli, Türkiye geneline 7/24 hizmet.",
+                                "Specialists in the repair, maintenance and technical service of oil-sealed, liquid ring and dry vacuum pumps since 2015. Based in İzmir, serving all of Türkiye 24/7.");
 }
 
-<section class="section about-section">
+<section class="page-hero" style="--page-hero-img: url('/images/1.jpg')">
     <div class="container">
-        <h2 class="section-title">Hakkımızda</h2>
+        <nav class="breadcrumb" aria-label="@T("Sayfa yolu", "Breadcrumb")">
+            <a href="@PageUrl("Index")">@T("Ana Sayfa", "Home")</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">@T("Hakkımızda", "About Us")</span>
+        </nav>
+        @if (IsEnglish)
+        {
+            <h1>Your trusted partner in <span class="text-accent">vacuum technology</span></h1>
+            <p>Specialists in the repair, maintenance and technical service of oil-sealed, liquid ring and dry vacuum pumps since 2015.</p>
+        }
+        else
+        {
+            <h1>Vakum teknolojilerinde <span class="text-accent">güvenilir çözüm ortağınız</span></h1>
+            <p>2015'ten bu yana yağlı, sulu ve kuru vakum pompalarının tamir, bakım ve teknik servisinde uzmanız.</p>
+        }
+    </div>
+</section>
 
-
+<section class="section about-section" aria-label="@T("Firmamız", "Our company")">
+    <div class="container">
         <div class="about-content">
-            <div class="about-profile">
+            <div class="about-profile" data-reveal>
                 <div class="about-image">
-                    <img src="~/images/profile.png" alt="Profil Fotoğrafı">
-
+                    <img src="~/images/profile.png" alt="@SiteInfo.ContactPerson" width="1024" height="1024" loading="lazy" decoding="async" />
                 </div>
-                <div>
+                <p class="about-name"><strong>@SiteInfo.ContactPerson</strong><span>@T("İşletme Sahibi", "Owner")</span></p>
+                <img src="~/images/logo-dark.png" class="about-logo" alt="@SiteInfo.Name" width="1920" height="300" loading="lazy" />
+                <a class="btn btn-primary btn-block" href="@SiteInfo.PhoneLink">
+                    <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span class="nowrap">@PhoneText</span>
+                </a>
+            </div>
+            <div class="about-text" data-reveal>
+                @if (IsEnglish)
+                {
                     <p>
-                        <strong>İbrahim Dost </strong>- İşletme Sahibi
+                        Our company was founded in Kayseri in 2015 and has grown steadily thanks to many years of know-how and industry experience in vacuum technology. In 2020, we restructured with a new headquarters in İzmir and expanded our service network under the Turkish Vakum brand.
                     </p>
-                </div>
-                <div>
-                    <img src="~/images/logo-dark.png" class="logo-image" alt="Turkish Vakum" />
-                </div>
-                
-            </div>
-            <div class="about-text">
-                <p>
-                    Firmamızın temelleri, 2015 yılında Kayseri’de atılmış olup vakum teknolojileri alanında uzun yıllara dayanan birikim ve sektör tecrübesiyle sürekli gelişimini sürdürmüştür. 2020 yılında İzmir merkezli yeni yapılanmamızla Turkish Vakum markası altında hizmet ağımızı genişleterek faaliyetlerimize devam etmekteyiz.
-                </p>
-                <p>
-                    Kuruluşumuzdan bu yana yerli ve yabancı birçok markaya ait yağlı, sulu ve kuru tip vakum pompalarının tamir, bakım, onarım ve teknik servis hizmetlerini profesyonel standartlarda sunmaktayız. Bununla birlikte, sektörün önde gelen markalarının yetkili servis ve satış temsilcisi olarak müşterilerimize kapsamlı çözümler sağlamaktayız.
-                </p>
-                <p>
-                    Hizmet kalitemizi, sektör standartlarına uygunluğu kanıtlayan mesleki yeterlilik ve sertifikalarımızla güvence altına alıyor; uzman ekibimiz, geniş servis ağımız ve çözüm odaklı yaklaşımımızla Türkiye’nin tüm bölgelerine hızlı, güvenilir ve etkin hizmet sunuyoruz.
-                </p>
-                <p>
-                    Turkish Vakum olarak, vakum teknolojileri alanında güvenilir çözüm ortağınız olmaktan gurur duyuyor; kalite, güven ve profesyonelliği ilke edinerek hizmetlerimizi her geçen gün daha da geliştirmeyi hedefliyoruz.
-                </p>
+                    <p>
+                        Since our founding, we have provided professional repair, maintenance and technical service for oil-sealed, liquid ring and dry vacuum pumps of many domestic and international brands. As an authorized service and sales representative of leading brands in the industry, we also offer our customers comprehensive solutions.
+                    </p>
+                    <p>
+                        Our service quality is backed by professional qualifications and certificates that prove compliance with industry standards. With our expert team, wide service network and solution-oriented approach, we provide fast, reliable and effective service to every region of Türkiye.
+                    </p>
+                    <p>
+                        At Turkish Vakum, we are proud to be your trusted partner in vacuum technology. Guided by quality, trust and professionalism, we aim to improve our services every day.
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        Firmamızın temelleri, 2015 yılında Kayseri’de atılmış olup vakum teknolojileri alanında uzun yıllara dayanan birikim ve sektör tecrübesiyle sürekli gelişimini sürdürmüştür. 2020 yılında İzmir merkezli yeni yapılanmamızla Turkish Vakum markası altında hizmet ağımızı genişleterek faaliyetlerimize devam etmekteyiz.
+                    </p>
+                    <p>
+                        Kuruluşumuzdan bu yana yerli ve yabancı birçok markaya ait yağlı, sulu ve kuru tip vakum pompalarının tamir, bakım, onarım ve teknik servis hizmetlerini profesyonel standartlarda sunmaktayız. Bununla birlikte, sektörün önde gelen markalarının yetkili servis ve satış temsilcisi olarak müşterilerimize kapsamlı çözümler sağlamaktayız.
+                    </p>
+                    <p>
+                        Hizmet kalitemizi, sektör standartlarına uygunluğu kanıtlayan mesleki yeterlilik ve sertifikalarımızla güvence altına alıyor; uzman ekibimiz, geniş servis ağımız ve çözüm odaklı yaklaşımımızla Türkiye’nin tüm bölgelerine hızlı, güvenilir ve etkin hizmet sunuyoruz.
+                    </p>
+                    <p>
+                        Turkish Vakum olarak, vakum teknolojileri alanında güvenilir çözüm ortağınız olmaktan gurur duyuyor; kalite, güven ve profesyonelliği ilke edinerek hizmetlerimizi her geçen gün daha da geliştirmeyi hedefliyoruz.
+                    </p>
+                }
 
+                <div class="milestones">
+                    <div class="milestone">
+                        <strong>2015</strong>
+                        <span>@T("Kayseri’de kuruluş", "Founded in Kayseri")</span>
+                    </div>
+                    <div class="milestone">
+                        <strong>2020</strong>
+                        <span>@T("İzmir merkezli yeni yapılanma", "New headquarters in İzmir")</span>
+                    </div>
+                    <div class="milestone milestone--red">
+                        <strong>@T("7/24", "24/7")</strong>
+                        <span>@T("Telefon ve WhatsApp desteği", "Phone & WhatsApp support")</span>
+                    </div>
+                    <div class="milestone milestone--blue">
+                        <strong>@T("Konsinye", "Consignment")</strong>
+                        <span>@T("Tamir süresince yedek pompa", "Loaner pump during repairs")</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section services-section">
-
-    <h3 class="section-title">Hizmetlerimiz</h3>
-
-    <div class="services-grid">
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/2.jpg" alt="Tamir" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">handyman</i>
-                <h3>Tamir</h3>
-                <p>Sertifikalı ekibimizle tüm marka ve model vakum cihazlarınızın tamirini gerçekleştiriyoruz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/9.jpg" alt="Bakım" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">settings_suggest</i>
-                <h3>Bakım</h3>
-                <p>Düzenli bakım hizmetleriyle eşit yaşlandırma yaparak cihazlarınızın ömrünü uzatıyor, performansını artırıyoruz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/6.jpg" alt="Onarım" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">build</i>
-                <h3>Onarım</h3>
-                <p>Arızalı parçaların onarımı ve değişiminde tecrübeli ustalarımızla hizmetinizdeyiz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/1.jpg" alt="Revizyon" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">manage_history</i>
-                <h3>Revizyon</h3>
-                <p>Cihazlarınızın genel revizyonunu yaparak fabrika performansına kavuşturuyoruz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/7.png" alt="Yedek Parça" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">control_point_duplicate</i>
-                <h3>Yedek Parça</h3>
-                <p>Vakum pompalarınız için orijinal ve uyumlu yedek parçaları temin ediyoruz.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <div class="service-overlay"></div>
-            <img src="~/images/5.jpg" alt="Cihaz Temini" class="service-bg">
-            <div class="service-content">
-                <i class="material-icons service-icon">autorenew</i>
-                <h3>Cihaz Temini</h3>
-                <p>İşletmenizin çalışma prensibine uygun yeni ve ikinci el vakum pompalarını güvenilir marka seçenekleriyle sağlıyoruz.</p>
-            </div>
-        </div>
-    </div>
-</section>
+<partial name="_Hizmetler" />
